@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Sevaks — AI Insights</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',system-ui,sans-serif;background:linear-gradient(160deg,#f0fdf4 0%,#ecfdf5 30%,#eff6ff 65%,#f0f9ff 100%);padding:32px 28px;min-height:100vh;position:relative}
+.grid-ov{position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(34,197,94,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,0.035) 1px,transparent 1px);background-size:52px 52px;z-index:0}
+.blob{position:fixed;border-radius:50%;filter:blur(60px);pointer-events:none;z-index:0}
+.b1{width:600px;height:600px;top:-10%;left:-8%;background:radial-gradient(circle,rgba(34,197,94,0.12) 0%,transparent 65%);animation:b1 20s ease-in-out infinite}
+.b2{width:500px;height:500px;top:10%;right:-10%;background:radial-gradient(circle,rgba(59,130,246,0.09) 0%,transparent 65%);animation:b2 25s ease-in-out infinite 4s}
+@keyframes b1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(35px,-25px) scale(1.06)}}
+@keyframes b2{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,35px) scale(1.08)}}
+.wrap{position:relative;z-index:1;max-width:1300px;margin:0 auto}
+.glass{background:rgba(255,255,255,0.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(0,0,0,0.06);border-radius:24px;box-shadow:0 4px 24px rgba(0,0,0,0.05)}
+.fade-up{opacity:0;transform:translateY(24px);animation:fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards}
+.slide-in{opacity:0;transform:translateX(20px);animation:slideIn 0.6s cubic-bezier(0.16,1,0.3,1) forwards}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+@keyframes slideIn{to{opacity:1;transform:none}}
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#94a3b8;margin-bottom:4px}
+/* HEADER */
+.sec-hdr{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:26px;animation:fadeUp 0.5s ease forwards}
+.ai-logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#22c55e,#14b8a6);display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 4px 16px rgba(34,197,94,0.35);animation:iconBob 5s ease-in-out infinite}
+@keyframes iconBob{0%,100%{transform:rotate(0)}30%{transform:rotate(-8deg)}60%{transform:rotate(8deg)}}
+.realtime-badge{display:flex;align-items:center;gap:6px;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:20px;padding:3px 10px}
+.live-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;animation:livePulse 1.6s infinite}
+@keyframes livePulse{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0.4)}70%{box-shadow:0 0 0 8px rgba(34,197,94,0)}}
+.primary-btn{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;border-radius:30px;padding:10px 22px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 4px 16px rgba(34,197,94,0.3);transition:transform 0.2s,box-shadow 0.2s;display:flex;align-items:center;gap:5px}
+.primary-btn:hover{transform:scale(1.05);box-shadow:0 8px 24px rgba(34,197,94,0.35)}
+/* INSIGHT GRID */
+.insight-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
+.ic-wrap{border-radius:24px;padding:2px;cursor:default;transition:transform 0.35s cubic-bezier(0.16,1,0.3,1),box-shadow 0.35s ease}
+.ic-wrap:hover{transform:translateY(-7px)}
+.ic-body{background:rgba(255,255,255,0.85);backdrop-filter:blur(16px);border-radius:22px;padding:22px 20px;position:relative;overflow:hidden}
+.ic-shine{position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);transform:skewX(-12deg) translateX(-150%);pointer-events:none;transition:none}
+.ic-wrap:hover .ic-shine{animation:shine 0.65s ease-in-out}
+@keyframes shine{to{transform:skewX(-12deg) translateX(250%)}}
+.ic-icon{width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;animation:iconBob 4s ease-in-out infinite}
+.ic-num{font-size:38px;font-weight:900;color:#0f172a;letter-spacing:-0.04em;line-height:1}
+.ic-tag{font-size:11px;font-weight:800;border-radius:20px;padding:3px 8px}
+.prog-bg{height:4px;border-radius:4px;background:rgba(0,0,0,0.06);overflow:hidden;margin-top:14px}
+.prog-fill{height:100%;border-radius:4px;animation:progGrow 1.2s cubic-bezier(0.16,1,0.3,1) forwards}
+@keyframes progGrow{from{width:0}}
+/* HEATMAP */
+.hmap-wrap{padding:24px 26px;margin-bottom:18px}
+.hmap-grid{display:flex;gap:3px}
+.hmap-col{display:flex;flex-direction:column;gap:3px}
+.hmap-cell{width:14px;height:14px;border-radius:3px;cursor:pointer;transition:transform 0.15s,z-index 0s;flex-shrink:0;opacity:0;transform:scale(0.3)}
+.hmap-cell:hover{transform:scale(1.5)!important;z-index:10;position:relative}
+.hm-tooltip{position:fixed;background:rgba(15,23,42,0.92);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:8px 14px;pointer-events:none;z-index:1000;display:none;font-family:'DM Sans',system-ui}
+/* BOTTOM ROW */
+.bot-row{display:grid;grid-template-columns:1fr 370px;gap:14px;align-items:start}
+/* PREDICTION PANEL */
+.pred-float{animation:breathe 5s ease-in-out infinite;position:relative}
+@keyframes breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.pred-body{background:linear-gradient(145deg,rgba(255,255,255,0.88),rgba(240,253,244,0.82));backdrop-filter:blur(20px);border:1px solid rgba(34,197,94,0.15);border-radius:28px;padding:26px 24px;box-shadow:0 20px 60px rgba(0,0,0,0.09),0 4px 16px rgba(34,197,94,0.08);position:relative;overflow:hidden}
+.pred-glow{position:absolute;inset:-20px;background:radial-gradient(ellipse,rgba(34,197,94,0.14) 0%,transparent 70%);filter:blur(20px);border-radius:40px;pointer-events:none;animation:glowB 5s ease-in-out infinite}
+@keyframes glowB{0%,100%{opacity:0.6}50%{opacity:1}}
+.ai-ping-wrap{position:relative;display:flex;align-items:center}
+.ai-ping-wrap::before{content:'';position:absolute;width:14px;height:14px;border-radius:50%;background:#22c55e;opacity:0.4;animation:ping 2s infinite}
+@keyframes ping{0%{transform:scale(1);opacity:0.6}100%{transform:scale(2.2);opacity:0}}
+.ai-dot{width:10px;height:10px;border-radius:50%;background:#22c55e;position:relative;z-index:2;box-shadow:0 0 8px rgba(34,197,94,0.6)}
+.big-num{font-size:46px;font-weight:900;color:#0f172a;letter-spacing:-0.05em;line-height:1}
+.conf-bg{height:4px;width:100px;border-radius:4px;background:rgba(0,0,0,0.06);overflow:hidden}
+.conf-fill{height:100%;width:0;background:linear-gradient(90deg,#22c55e,#14b8a6);border-radius:4px;animation:progGrow 1.2s cubic-bezier(0.16,1,0.3,1) 0.9s forwards;--w:87%}
+.upd-blink{animation:fadeBlink 1.5s infinite}
+@keyframes fadeBlink{0%,100%{opacity:1}50%{opacity:0.3}}
+/* FEED */
+.feed-body{padding:22px 20px;display:flex;flex-direction:column}
+.feed-item{display:flex;align-items:center;gap:12px;padding:11px 10px;border-radius:14px;cursor:pointer;transition:background 0.2s,transform 0.25s cubic-bezier(0.16,1,0.3,1);border-left:2px solid transparent;margin-bottom:2px}
+.feed-item:hover{transform:translateX(4px)}
+.fi-icon{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;transition:transform 0.3s}
+.feed-item:hover .fi-icon{transform:rotate(-6deg) scale(1.1)}
+</style>
+</head>
+<body>
+<div class="grid-ov"></div>
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+
+<div class="wrap">
+
+<!-- SECTION HEADER -->
+<div class="sec-hdr">
+  <div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <div class="ai-logo">🧠</div>
+      <p class="eyebrow" style="margin:0">Powered by Sevaks AI</p>
+      <div class="realtime-badge"><div class="live-dot"></div><span style="font-size:10px;font-weight:700;color:#16a34a">Real-time</span></div>
+    </div>
+    <h2 style="font-size:30px;font-weight:900;color:#0f172a;letter-spacing:-0.03em;line-height:1.1;margin-bottom:5px">AI Insights & Predictive Analytics</h2>
+    <p style="font-size:13px;color:#64748b">Machine learning models trained on 18 months of volunteer + NGO data</p>
+  </div>
+  <button class="primary-btn">🔮 Full AI Report</button>
+</div>
+
+<!-- INSIGHT CARDS -->
+<div class="insight-grid">
+
+  <!-- Card 1 -->
+  <div class="ic-wrap fade-up" style="animation-delay:0.1s;background:linear-gradient(135deg,#22c55e,#14b8a6,#3b82f6)" id="ic1wrap">
+    <div class="ic-body"><div class="ic-shine"></div>
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div><div class="eyebrow">AI Forecast</div><div style="font-size:14px;font-weight:800;color:#0f172a;line-height:1.3">Volunteer Demand Forecast</div></div>
+        <div class="ic-icon" style="background:linear-gradient(135deg,rgba(34,197,94,0.18),rgba(20,184,166,0.18));border:1px solid rgba(34,197,94,0.25)">🔮</div>
+      </div>
+      <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:4px">
+        <span class="ic-num" id="n1">0.0</span><span style="font-size:20px;font-weight:900;color:#0f172a">%</span>
+        <span class="ic-tag" style="color:#22c55e;background:rgba(34,197,94,0.1)">↑ 12.3%</span>
+      </div>
+      <p style="font-size:11px;color:#64748b;margin-bottom:14px">Projected demand surge — tier-1 cities</p>
+      <svg id="spk1" viewBox="0 0 200 52" style="width:100%;height:52px;display:block;overflow:visible"></svg>
+      <div style="display:flex;gap:5px;margin-top:10px;flex-wrap:wrap">
+        <span style="font-size:9px;font-weight:700;color:#16a34a;background:rgba(34,197,94,0.1);border-radius:20px;padding:2px 8px;border:1px solid rgba(34,197,94,0.2)">Q3 2024</span>
+        <span style="font-size:9px;font-weight:700;color:#16a34a;background:rgba(34,197,94,0.1);border-radius:20px;padding:2px 8px;border:1px solid rgba(34,197,94,0.2)">Delhi +45%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 2 -->
+  <div class="ic-wrap fade-up" style="animation-delay:0.2s;background:linear-gradient(135deg,#3b82f6,#8b5cf6,#14b8a6)">
+    <div class="ic-body"><div class="ic-shine"></div>
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div><div class="eyebrow">Predictive Model</div><div style="font-size:14px;font-weight:800;color:#0f172a;line-height:1.3">NGO Growth Prediction</div></div>
+        <div class="ic-icon" style="background:linear-gradient(135deg,rgba(59,130,246,0.18),rgba(139,92,246,0.18));border:1px solid rgba(59,130,246,0.25);animation-delay:1.3s">📊</div>
+      </div>
+      <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:4px">
+        <span style="font-size:38px;font-weight:900;color:#0f172a;letter-spacing:-0.04em;line-height:1">+<span id="n2">0</span></span>
+        <span class="ic-tag" style="color:#3b82f6;background:rgba(59,130,246,0.1)">↑ 24.1%</span>
+      </div>
+      <p style="font-size:11px;color:#64748b;margin-bottom:14px">New NGOs expected by end of quarter</p>
+      <svg id="spk2" viewBox="0 0 200 52" style="width:100%;height:52px;display:block;overflow:visible"></svg>
+      <div style="display:flex;gap:5px;margin-top:10px;flex-wrap:wrap">
+        <span style="font-size:9px;font-weight:700;color:#2563eb;background:rgba(59,130,246,0.1);border-radius:20px;padding:2px 8px;border:1px solid rgba(59,130,246,0.2)">Education ↑</span>
+        <span style="font-size:9px;font-weight:700;color:#2563eb;background:rgba(59,130,246,0.1);border-radius:20px;padding:2px 8px;border:1px solid rgba(59,130,246,0.2)">Healthcare ↑</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 3 -->
+  <div class="ic-wrap fade-up" style="animation-delay:0.3s;background:linear-gradient(135deg,#f59e0b,#22c55e,#14b8a6)">
+    <div class="ic-body"><div class="ic-shine"></div>
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px">
+        <div><div class="eyebrow">Trend Analysis</div><div style="font-size:14px;font-weight:800;color:#0f172a;line-height:1.3">Impact Trend Analysis</div></div>
+        <div class="ic-icon" style="background:linear-gradient(135deg,rgba(245,158,11,0.18),rgba(34,197,94,0.18));border:1px solid rgba(245,158,11,0.25);animation-delay:0.7s">🌱</div>
+      </div>
+      <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:4px">
+        <span class="ic-num" id="n3">0.0</span><span style="font-size:20px;font-weight:900;color:#0f172a">M</span>
+        <span class="ic-tag" style="color:#d97706;background:rgba(245,158,11,0.1)">↑ 34.2%</span>
+      </div>
+      <p style="font-size:11px;color:#64748b;margin-bottom:14px">Compounded lives — 30-day rolling avg</p>
+      <svg id="spk3" viewBox="0 0 200 52" style="width:100%;height:52px;display:block;overflow:visible"></svg>
+      <div style="display:flex;gap:5px;margin-top:10px;flex-wrap:wrap">
+        <span style="font-size:9px;font-weight:700;color:#d97706;background:rgba(245,158,11,0.1);border-radius:20px;padding:2px 8px;border:1px solid rgba(245,158,11,0.2)">Accelerating</span>
+        <span style="font-size:9px;font-weight:700;color:#d97706;background:rgba(245,158,11,0.1);border-radius:20px;padding:2px 8px;border:1px solid rgba(245,158,11,0.2)">All Regions</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HEATMAP -->
+<div class="glass hmap-wrap fade-up" style="animation-delay:0.38s">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+    <div>
+      <div class="eyebrow">Volunteer Activity Grid</div>
+      <h3 style="font-size:20px;font-weight:800;color:#0f172a;letter-spacing:-0.02em">24-Week Activity Heatmap</h3>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:26px;font-weight:900;color:#0f172a;letter-spacing:-0.03em" id="totalAct">0</div>
+      <div style="font-size:11px;color:#94a3b8">total actions</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:3px;margin-bottom:5px;margin-left:30px;overflow:hidden" id="mLabels"></div>
+  <div style="display:flex;gap:6px">
+    <div id="dLabels" style="display:flex;flex-direction:column;gap:3px;padding-top:1px"></div>
+    <div class="hmap-grid" id="hmGrid" style="flex:1;overflow-x:auto"></div>
+  </div>
+  <div style="display:flex;align-items:center;gap:6px;margin-top:14px;margin-left:30px">
+    <span style="font-size:9px;color:#94a3b8">Less</span>
+    <div style="width:12px;height:12px;border-radius:3px;background:rgba(0,0,0,0.05)"></div>
+    <div style="width:12px;height:12px;border-radius:3px;background:rgba(34,197,94,0.18)"></div>
+    <div style="width:12px;height:12px;border-radius:3px;background:rgba(34,197,94,0.38)"></div>
+    <div style="width:12px;height:12px;border-radius:3px;background:rgba(34,197,94,0.6)"></div>
+    <div style="width:12px;height:12px;border-radius:3px;background:#22c55e"></div>
+    <span style="font-size:9px;color:#94a3b8">More</span>
+  </div>
+</div>
+
+<!-- BOTTOM ROW -->
+<div class="bot-row">
+
+  <!-- PREDICTION PANEL -->
+  <div class="fade-up" style="animation-delay:0.48s;position:relative">
+    <div style="position:absolute;inset:-20px;background:radial-gradient(ellipse,rgba(34,197,94,0.13) 0%,transparent 70%);filter:blur(20px);border-radius:40px;pointer-events:none;animation:glowB 5s ease-in-out infinite"></div>
+    <div class="pred-float">
+      <div class="pred-body">
+        <div style="position:absolute;top:0;right:0;width:180px;height:180px;background:radial-gradient(circle,rgba(34,197,94,0.08) 0%,transparent 70%);border-radius:0 28px 0 0;pointer-events:none"></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+          <div class="ai-ping-wrap"><div class="ai-dot"></div></div>
+          <span style="font-size:11px;font-weight:800;color:#16a34a;letter-spacing:0.08em;text-transform:uppercase">Live AI Prediction</span>
+          <span class="upd-blink" style="font-size:10px;color:#94a3b8;margin-left:auto">Updating...</span>
+        </div>
+        <p style="font-size:12px;color:#64748b;margin-bottom:6px;font-weight:500">Expected Impact — Next 30 Days</p>
+        <div class="big-num" id="predN">0</div>
+        <div style="display:flex;align-items:center;gap:8px;margin:8px 0 20px">
+          <span style="font-size:12px;font-weight:700;color:#22c55e;background:rgba(34,197,94,0.1);border-radius:20px;padding:3px 10px">↑ 34% vs last month</span>
+          <span style="font-size:11px;color:#94a3b8">lives reached</span>
+        </div>
+        <svg id="fcSvg" viewBox="0 0 520 85" style="width:100%;height:85px;display:block;overflow:visible">
+          <defs><linearGradient id="fcG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#22c55e" stop-opacity="0.3"/><stop offset="100%" stop-color="#22c55e" stop-opacity="0"/></linearGradient></defs>
+        </svg>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px">
+          <span style="font-size:11px;color:#94a3b8">Model confidence</span>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="conf-bg"><div class="conf-fill" style="width:0;--w:87%;animation:progGrow 1.2s cubic-bezier(0.16,1,0.3,1) 0.9s forwards"></div></div>
+            <span style="font-size:12px;font-weight:800;color:#22c55e">87%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SMART FEED -->
+  <div class="glass feed-body fade-up" style="animation-delay:0.55s">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div>
+        <div class="eyebrow">Smart Suggestions</div>
+        <h3 style="font-size:18px;font-weight:800;color:#0f172a;letter-spacing:-0.02em">AI Recommendations</h3>
+      </div>
+      <div style="width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(20,184,166,0.15));border:1px solid rgba(34,197,94,0.2);display:flex;align-items:center;justify-content:center;font-size:20px;animation:iconBob 5s ease-in-out infinite 1s">🧠</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(34,197,94,0.06),rgba(20,184,166,0.06));border:1px solid rgba(34,197,94,0.12);border-radius:12px;padding:8px 12px;margin-bottom:16px">
+      <div style="width:7px;height:7px;border-radius:50%;background:#22c55e;animation:livePulse 1.8s infinite;flex-shrink:0"></div>
+      <span style="font-size:11px;font-weight:600;color:#16a34a">Sevaks AI · Powered by real-time data</span>
+    </div>
+    <div id="feedList" style="flex:1;display:flex;flex-direction:column;gap:0"></div>
+    <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(0,0,0,0.05);display:flex;align-items:center;justify-content:space-between">
+      <span style="font-size:11px;color:#94a3b8">Updated 2 min ago</span>
+      <button style="font-size:11px;font-weight:700;color:#16a34a;background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:20px;padding:6px 14px;cursor:pointer;font-family:inherit;transition:transform 0.2s" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">Refresh insights →</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Heatmap tooltip -->
+<div class="hm-tooltip" id="hmTip">
+  <div id="hmTLbl" style="font-size:11px;color:rgba(255,255,255,0.55);margin-bottom:3px"></div>
+  <div id="hmTVal" style="font-size:14px;font-weight:800;color:#fff"></div>
+</div>
+
+<script>
+// ─── COUNT UP ─────────────────────────────────────────────────
+function countUp(el, target, duration, fmt) {
+  const s = performance.now();
+  const go = (now) => {
+    const p = Math.min((now-s)/duration, 1);
+    const ease = 1-Math.pow(1-p,3);
+    el.textContent = fmt(ease*target);
+    if(p<1) requestAnimationFrame(go);
+  };
+  requestAnimationFrame(go);
+}
+setTimeout(()=>{
+  countUp(document.getElementById('n1'),38.4,1200,n=>n.toFixed(1));
+  countUp(document.getElementById('n2'),127,1400,n=>Math.round(n));
+  countUp(document.getElementById('n3'),4.8,1600,n=>n.toFixed(1));
+  countUp(document.getElementById('predN'),287400,2000,n=>Math.round(n).toLocaleString());
+  // total heatmap count
+  countUp(document.getElementById('totalAct'),hmTotal,1200,n=>Math.round(n).toLocaleString());
+},300);
+
+// ─── SPARKLINES ───────────────────────────────────────────────
+function drawSpk(id, data, color, delay=200) {
+  const svg = document.getElementById(id);
+  const W=200, H=48, pad=4;
+  const mn=Math.min(...data), mx=Math.max(...data), rng=mx-mn||1;
+  const pts=data.map((v,i)=>({
+    x:pad+(i/(data.length-1))*(W-pad*2),
+    y:H-pad-((v-mn)/rng)*(H-pad*2)
+  }));
+  const line=pts.map((p,i)=>(i===0?'M':'L')+p.x.toFixed(1)+','+p.y.toFixed(1)).join(' ');
+  const area=line+` L${pts[pts.length-1].x},${H} L${pts[0].x},${H} Z`;
+  const gid=id+'g';
+  svg.innerHTML=`<defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${color}" stop-opacity="0.28"/><stop offset="100%" stop-color="${color}" stop-opacity="0"/></linearGradient></defs>
+<path d="${area}" fill="url(#${gid})"/>
+<path d="${line}" fill="none" stroke="${color}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="400" stroke-dashoffset="400" id="${id}p"/>
+<circle cx="${pts[pts.length-1].x.toFixed(1)}" cy="${pts[pts.length-1].y.toFixed(1)}" r="3.5" fill="${color}" stroke="#fff" stroke-width="2"/>`;
+  const path=document.getElementById(id+'p');
+  if(path) path.animate([{strokeDashoffset:'400'},{strokeDashoffset:'0'}],{duration:900,easing:'cubic-bezier(0.16,1,0.3,1)',fill:'forwards',delay});
+}
+drawSpk('spk1',[22,28,25,34,30,38,35,42,40,48],'#22c55e',200);
+drawSpk('spk2',[60,72,68,84,90,88,98,106,112,127],'#3b82f6',320);
+drawSpk('spk3',[2.1,2.4,2.9,3.2,3.6,3.9,4.1,4.4,4.6,4.8],'#f59e0b',440);
+
+// ─── HEATMAP ──────────────────────────────────────────────────
+const DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const MNTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const WEEKS=24;
+function cellColor(v){
+  if(v===0)return'rgba(0,0,0,0.05)';
+  if(v<15)return'rgba(34,197,94,0.16)';
+  if(v<30)return'rgba(34,197,94,0.34)';
+  if(v<50)return'rgba(34,197,94,0.58)';
+  if(v<65)return'rgba(34,197,94,0.76)';
+  return'#22c55e';
+}
+const gridData=Array.from({length:WEEKS},(_,w)=>Array.from({length:7},(_,d)=>{
+  const v=Math.floor(Math.random()*(d>=5?.5:1)*(0.4+(w/WEEKS)*0.6)*80);
+  return{v,w,d};
+}));
+var hmTotal=gridData.flat().reduce((s,c)=>s+c.v,0);
+
+// Month labels
+const mDiv=document.getElementById('mLabels');
+MNTHS.slice(0,12).forEach((m,i)=>{const d=document.createElement('div');d.style.cssText=`width:36px;font-size:9px;color:#94a3b8;font-weight:600`;d.textContent=i%2===0?m:'';mDiv.appendChild(d);});
+
+// Day labels
+const dDiv=document.getElementById('dLabels');
+DAYS.forEach((day,i)=>{const d=document.createElement('div');d.style.cssText='height:14px;width:26px;font-size:9px;color:#94a3b8;font-weight:600;display:flex;align-items:center';d.textContent=i%2!==0?day:'';dDiv.appendChild(d);});
+
+// Cells
+const hg=document.getElementById('hmGrid');
+const tip=document.getElementById('hmTip');
+gridData.forEach((week,w)=>{
+  const col=document.createElement('div');
+  col.className='hmap-col';
+  week.forEach((cell,d)=>{
+    const div=document.createElement('div');
+    div.className='hmap-cell';
+    div.style.background=cellColor(cell.v);
+    if(cell.v>60)div.style.border='1px solid rgba(34,197,94,0.4)';
+    const idx=w*7+d;
+    setTimeout(()=>{
+      div.style.transition='transform 0.4s cubic-bezier(0.16,1,0.3,1),opacity 0.3s';
+      div.style.opacity='1';div.style.transform='scale(1)';
+    },idx*2.5+500);
+    div.addEventListener('mouseenter',e=>{
+      tip.style.display='block';
+      tip.style.left=(e.clientX+14)+'px';
+      tip.style.top=(e.clientY-52)+'px';
+      document.getElementById('hmTLbl').textContent=`${DAYS[d]}, Week ${w+1}`;
+      document.getElementById('hmTVal').innerHTML=`${cell.v} <span style="color:#22c55e">actions</span>`;
+    });
+    div.addEventListener('mousemove',e=>{tip.style.left=(e.clientX+14)+'px';tip.style.top=(e.clientY-52)+'px';});
+    div.addEventListener('mouseleave',()=>tip.style.display='none');
+    col.appendChild(div);
+  });
+  hg.appendChild(col);
+});
+
+// ─── FORECAST CHART ───────────────────────────────────────────
+const fcD=[124,148,162,189,214,238,267,298];
+const fcL=['W1','W2','W3','W4','W5','W6','W7','W8'];
+const fcSvg=document.getElementById('fcSvg');
+const W=520,H=85,pT=8,pB=20,pX=20;
+const mn2=Math.min(...fcD),mx2=Math.max(...fcD),rng2=mx2-mn2||1;
+const pts2=fcD.map((v,i)=>({
+  x:pX+(i/(fcD.length-1))*(W-pX*2),
+  y:pT+(1-(v-mn2)/rng2)*(H-pT-pB)
+}));
+const ln=pts2.map((p,i)=>(i===0?'M':'L')+p.x.toFixed(1)+','+p.y.toFixed(1)).join(' ');
+const ar=ln+` L${pts2[pts2.length-1].x},${H-pB} L${pts2[0].x},${H-pB} Z`;
+const lbls2=fcL.map((l,i)=>`<text x="${pts2[i].x.toFixed(1)}" y="${H}" text-anchor="middle" font-size="9" fill="#94a3b8" font-family="DM Sans,system-ui">${l}</text>`).join('');
+const dots2=pts2.map(p=>`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3" fill="#22c55e" stroke="#fff" stroke-width="1.5"/>`).join('');
+fcSvg.innerHTML+=`<path d="${ar}" fill="url(#fcG)"/><path d="${ln}" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="600" stroke-dashoffset="600" id="fcp"/>${dots2}${lbls2}`;
+const fcp=document.getElementById('fcp');
+if(fcp) fcp.animate([{strokeDashoffset:'600'},{strokeDashoffset:'0'}],{duration:1200,easing:'cubic-bezier(0.16,1,0.3,1)',fill:'forwards',delay:700});
+
+// ─── SMART FEED ───────────────────────────────────────────────
+const sugg=[
+  {text:'Deploy more volunteers in Delhi NCR',sub:'High demand — 340% above capacity',icon:'📍',pc:'#ef4444',pb:'rgba(239,68,68,0.07)',pl:'Urgent',ac:'Take Action'},
+  {text:'Education NGOs trending up 24%',sub:'3 new orgs onboarded — boost matching',icon:'📈',pc:'#22c55e',pb:'rgba(34,197,94,0.07)',pl:'High',ac:'View NGOs'},
+  {text:'Healthcare sector needs 120 volunteers',sub:'Weekend surge predicted — Bengaluru',icon:'🏥',pc:'#3b82f6',pb:'rgba(59,130,246,0.07)',pl:'Medium',ac:'Match Now'},
+  {text:'Optimize rural outreach timing',sub:'AI: 68% lower engagement on Mondays',icon:'🌾',pc:'#f59e0b',pb:'rgba(245,158,11,0.07)',pl:'Advisory',ac:'Reschedule'},
+];
+const fl=document.getElementById('feedList');
+sugg.forEach((item,i)=>{
+  const div=document.createElement('div');
+  div.className='feed-item slide-in';
+  div.style.animationDelay=(0.55+i*0.1)+'s';
+  div.innerHTML=`
+    <div class="fi-icon" style="background:${item.pc}15;border:1px solid ${item.pc}25">${item.icon}</div>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:12px;font-weight:700;color:#0f172a;line-height:1.3;margin-bottom:2px">${item.text}</div>
+      <div style="font-size:10px;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${item.sub}</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0">
+      <span style="font-size:10px;font-weight:800;color:${item.pc};background:${item.pb};border-radius:20px;padding:2px 8px">${item.pl}</span>
+      <button style="font-size:10px;font-weight:700;color:${item.pc};background:${item.pc}12;border:1px solid ${item.pc}25;border-radius:20px;padding:4px 10px;cursor:pointer;font-family:inherit;transition:transform 0.2s" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'">${item.ac} →</button>
+    </div>`;
+  div.addEventListener('mouseenter',()=>{div.style.background=item.pb;div.style.borderLeftColor=item.pc;});
+  div.addEventListener('mouseleave',()=>{div.style.background='transparent';div.style.borderLeftColor='transparent';});
+  fl.appendChild(div);
+});
+
+// ─── HOVER GLOW on IC CARDS ──────────────────────────────────
+document.querySelectorAll('.ic-wrap').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{el.style.boxShadow='0 24px 64px rgba(0,0,0,0.12)';});
+  el.addEventListener('mouseleave',()=>{el.style.boxShadow='none';});
+});
+</script>
+</body>
+</html>

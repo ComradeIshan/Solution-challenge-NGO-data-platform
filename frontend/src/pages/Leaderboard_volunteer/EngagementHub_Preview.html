@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Digital Sevaks · Engagement Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/framer-motion/10.16.4/framer-motion.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { min-height: 100%; background: #f0fdf4; }
+  body { font-family: 'DM Sans', system-ui, sans-serif; }
+  button { font-family: inherit; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { motion, AnimatePresence } = window.FramerMotion;
+const { useState, useEffect } = React;
+
+/* ── SHARED ─────────────────────────────── */
+function GlassCard({ children, delay = 0, style = {} }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 28 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] }}
+      style={{
+        position: "relative",
+        background: "rgba(255,255,255,0.68)",
+        backdropFilter: "blur(14px)",
+        WebkitBackdropFilter: "blur(14px)",
+        borderRadius: 24, padding: 24,
+        border: "1px solid rgba(255,255,255,0.85)",
+        boxShadow: "0 20px 60px rgba(0,0,0,0.09)",
+        overflow: "hidden", ...style,
+      }}
+    >{children}</motion.div>
+  );
+}
+function CardHeader({ title, sub, children }) {
+  return (
+    <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", marginBottom:18 }}>
+      <div>
+        <div style={{ fontWeight:800, fontSize:18, color:"#0f172a", letterSpacing:"-0.4px" }}>{title}</div>
+        {sub && <div style={{ fontSize:12, color:"#64748b", marginTop:2 }}>{sub}</div>}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+/* ── LEADERBOARD ────────────────────────── */
+const sevaks = [
+  { rank:1, name:"Priya Sharma",  hours:142, av:"PS", weekly:94, loc:"Delhi"     },
+  { rank:2, name:"Arjun Mehta",   hours:128, av:"AM", weekly:81, loc:"Mumbai"    },
+  { rank:3, name:"Kavya Nair",    hours:115, av:"KN", weekly:76, loc:"Bangalore" },
+  { rank:4, name:"Rohan Das",     hours:98,  av:"RD", weekly:62, loc:"Kolkata"   },
+  { rank:5, name:"Sneha Patel",   hours:87,  av:"SP", weekly:55, loc:"Ahmedabad" },
+];
+const RC = {
+  1:{color:"#f59e0b",glow:"rgba(245,158,11,0.45)",label:"🥇",bg:"linear-gradient(135deg,#fef3c7,#fde68a)"},
+  2:{color:"#94a3b8",glow:"rgba(148,163,184,0.4)", label:"🥈",bg:"linear-gradient(135deg,#f1f5f9,#e2e8f0)"},
+  3:{color:"#cd7c35",glow:"rgba(205,124,53,0.4)",  label:"🥉",bg:"linear-gradient(135deg,#fef9f0,#fed7aa)"},
+};
+function LeaderRow({ s, idx }) {
+  const [hov, setHov] = useState(false);
+  const cfg = RC[s.rank] || { color:"#64748b", glow:"rgba(100,116,139,0.2)", label:`#${s.rank}`, bg:"linear-gradient(135deg,#f8fafc,#f1f5f9)" };
+  return (
+    <motion.div
+      initial={{opacity:0,x:-40}} animate={{opacity:1,x:0}}
+      transition={{delay:idx*0.09,type:"spring",stiffness:130,damping:15}}
+      onHoverStart={()=>setHov(true)} onHoverEnd={()=>setHov(false)}
+      style={{
+        display:"flex",alignItems:"center",gap:13,padding:"13px 16px",borderRadius:16,
+        background:hov?"rgba(255,255,255,0.95)":"rgba(255,255,255,0.55)",
+        border:`1.5px solid ${hov?cfg.color+"55":"rgba(255,255,255,0.7)"}`,
+        boxShadow:hov?`0 12px 36px ${cfg.glow}`:"0 2px 8px rgba(0,0,0,0.04)",
+        backdropFilter:"blur(14px)",
+        transform:hov?"translateY(-3px)":"translateY(0)",
+        transition:"all 0.3s cubic-bezier(0.34,1.56,0.64,1)",cursor:"pointer",
+      }}
+    >
+      <div style={{width:32,height:32,borderRadius:10,flexShrink:0,background:cfg.bg,display:"flex",alignItems:"center",justifyContent:"center",fontSize:s.rank<=3?16:13,fontWeight:800,color:cfg.color,border:`1.5px solid ${cfg.color}33`,boxShadow:hov?`0 0 12px ${cfg.glow}`:"none",transition:"box-shadow 0.3s"}}>{cfg.label}</div>
+      <div style={{width:38,height:38,borderRadius:12,flexShrink:0,background:"linear-gradient(135deg,#14b8a6,#3b82f6)",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:700,fontSize:13,boxShadow:hov?"0 4px 16px rgba(20,184,166,0.45)":"0 2px 8px rgba(20,184,166,0.2)",transition:"box-shadow 0.3s"}}>{s.av}</div>
+      <div style={{flex:1,minWidth:0}}>
+        <div style={{fontWeight:700,fontSize:14,color:"#0f172a"}}>{s.name}</div>
+        <div style={{fontSize:11,color:"#64748b",marginTop:1}}>{s.loc}</div>
+        <div style={{marginTop:5,height:4,borderRadius:99,background:"rgba(20,184,166,0.12)",overflow:"hidden"}}>
+          <motion.div initial={{width:0}} animate={{width:`${s.weekly}%`}} transition={{delay:idx*0.1+0.5,duration:1,ease:"easeOut"}} style={{height:"100%",borderRadius:99,background:"linear-gradient(90deg,#14b8a6,#3b82f6)"}} />
+        </div>
+      </div>
+      <div style={{textAlign:"right",flexShrink:0}}>
+        <div style={{fontWeight:800,fontSize:15,color:"#14b8a6"}}>{s.hours}h</div>
+        <div style={{fontSize:10,color:"#94a3b8",fontWeight:600}}>THIS MONTH</div>
+      </div>
+    </motion.div>
+  );
+}
+function Leaderboard() {
+  return (
+    <GlassCard delay={0}>
+      <CardHeader title="Top Sevaks" sub="Weekly leaderboard · resets Sunday">
+        <motion.span animate={{rotate:[0,10,-8,10,0]}} transition={{repeat:Infinity,duration:3}} style={{fontSize:26}}>🏆</motion.span>
+      </CardHeader>
+      <div style={{display:"flex",flexDirection:"column",gap:10}}>
+        {sevaks.map((s,i)=><LeaderRow key={s.rank} s={s} idx={i}/>)}
+      </div>
+    </GlassCard>
+  );
+}
+
+/* ── ACHIEVEMENTS ───────────────────────── */
+const badges = [
+  {id:1,icon:"⏱️",title:"100 Hours Served",  desc:"Dedicated volunteer",  color:"#22c55e",glow:"rgba(34,197,94,0.5)",   unlocked:true },
+  {id:2,icon:"🌟",title:"Top Volunteer",      desc:"Ranked #1 in region",  color:"#f59e0b",glow:"rgba(245,158,11,0.5)",  unlocked:true },
+  {id:3,icon:"🤝",title:"Community Leader",   desc:"Led 10+ initiatives",  color:"#3b82f6",glow:"rgba(59,130,246,0.5)",  unlocked:true },
+  {id:4,icon:"🔥",title:"Streak Master",      desc:"30-day streak",        color:"#ef4444",glow:"rgba(239,68,68,0.5)",   unlocked:false},
+  {id:5,icon:"🌱",title:"Impact Maker",       desc:"500 lives touched",    color:"#14b8a6",glow:"rgba(20,184,166,0.5)",  unlocked:false},
+  {id:6,icon:"💎",title:"Diamond Sevak",      desc:"Elite contributor",    color:"#8b5cf6",glow:"rgba(139,92,246,0.5)",  unlocked:false},
+];
+function BadgeCard({ b, index }) {
+  const [hov, setHov] = useState(false);
+  const [clicked, setClicked] = useState(false);
+  return (
+    <motion.div
+      initial={{opacity:0,scale:0.65,y:20}} animate={{opacity:1,scale:1,y:0}}
+      transition={{delay:index*0.07,type:"spring",stiffness:220,damping:18}}
+      whileHover={b.unlocked?{scale:1.06}:{scale:1.02}}
+      whileTap={b.unlocked?{scale:0.93}:{}}
+      onHoverStart={()=>setHov(true)} onHoverEnd={()=>setHov(false)}
+      onClick={()=>{if(!b.unlocked)return;setClicked(true);setTimeout(()=>setClicked(false),700);}}
+      style={{
+        position:"relative",borderRadius:20,padding:"18px 14px",textAlign:"center",
+        cursor:b.unlocked?"pointer":"default",overflow:"hidden",
+        background:b.unlocked?"rgba(255,255,255,0.78)":"rgba(248,250,252,0.5)",
+        backdropFilter:"blur(14px)",
+        border:`1.5px solid ${b.unlocked&&hov?b.color+"88":"rgba(255,255,255,0.8)"}`,
+        boxShadow:b.unlocked&&hov?`0 16px 44px ${b.glow}`:"0 4px 16px rgba(0,0,0,0.06)",
+        filter:b.unlocked?"none":"saturate(0) opacity(0.4)",
+        transition:"all 0.3s cubic-bezier(0.34,1.56,0.64,1)",
+      }}
+    >
+      {b.unlocked&&<motion.div animate={{rotate:360}} transition={{duration:6,repeat:Infinity,ease:"linear"}} style={{position:"absolute",inset:-2,borderRadius:22,background:`conic-gradient(${b.color},transparent,${b.color})`,opacity:hov?0.35:0.1,transition:"opacity 0.3s",zIndex:0}} />}
+      <div style={{position:"relative",zIndex:1}}>
+        <motion.div
+          animate={b.unlocked?{boxShadow:hov?[`0 0 0px ${b.glow}`,`0 0 18px ${b.glow}`,`0 0 0px ${b.glow}`]:`0 0 0px ${b.glow}`}:{}}
+          transition={{duration:1.6,repeat:Infinity}}
+          style={{width:50,height:50,borderRadius:15,margin:"0 auto 10px",background:b.unlocked?`linear-gradient(135deg,${b.color}22,${b.color}44)`:"rgba(148,163,184,0.15)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:24,border:`1.5px solid ${b.unlocked?b.color+"44":"rgba(148,163,184,0.2)"}`}}
+        >{b.icon}</motion.div>
+        <div style={{fontWeight:700,fontSize:11.5,color:b.unlocked?"#0f172a":"#94a3b8",lineHeight:1.3}}>{b.title}</div>
+        <div style={{fontSize:10,color:"#94a3b8",marginTop:2}}>{b.desc}</div>
+        {!b.unlocked&&<div style={{marginTop:6,fontSize:10,color:"#94a3b8",fontWeight:600}}>🔒 LOCKED</div>}
+        {b.unlocked&&clicked&&<motion.div initial={{scale:0,opacity:1}} animate={{scale:2.5,opacity:0}} transition={{duration:0.5}} style={{position:"absolute",inset:0,borderRadius:20,background:`radial-gradient(circle,${b.glow},transparent)`,pointerEvents:"none"}} />}
+      </div>
+    </motion.div>
+  );
+}
+function AchievementGrid() {
+  return (
+    <GlassCard delay={0.05}>
+      <CardHeader title="Achievements" sub="3 of 6 unlocked">
+        <div style={{fontSize:11,fontWeight:700,color:"#f59e0b",background:"rgba(245,158,11,0.12)",padding:"4px 10px",borderRadius:99,border:"1px solid rgba(245,158,11,0.25)"}}>🎯 3 MORE TO GO</div>
+      </CardHeader>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:11}}>
+        {badges.map((b,i)=><BadgeCard key={b.id} b={b} index={i}/>)}
+      </div>
+    </GlassCard>
+  );
+}
+
+/* ── STREAK ─────────────────────────────── */
+function CircleRing({value,max,size=138,sw=11}){
+  const r=(size-sw)/2,circ=2*Math.PI*r;
+  const [prog,setProg]=useState(0);
+  useEffect(()=>{const t=setTimeout(()=>setProg(value/max),400);return()=>clearTimeout(t);},[value,max]);
+  return(
+    <svg width={size} height={size} style={{transform:"rotate(-90deg)"}}>
+      <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="rgba(34,197,94,0.12)" strokeWidth={sw}/>
+      <motion.circle cx={size/2} cy={size/2} r={r} fill="none" stroke="url(#sg)" strokeWidth={sw} strokeLinecap="round" strokeDasharray={circ} initial={{strokeDashoffset:circ}} animate={{strokeDashoffset:circ*(1-prog)}} transition={{duration:1.6,ease:"easeOut",delay:0.5}}/>
+      <defs><linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#22c55e"/><stop offset="100%" stopColor="#14b8a6"/></linearGradient></defs>
+    </svg>
+  );
+}
+function StreakCard(){
+  const streak=12,goal=30;
+  return(
+    <GlassCard delay={0.1}>
+      <CardHeader title="Daily Streak" sub="Keep the fire alive">
+        <motion.span animate={{scale:[1,1.18,1],filter:["drop-shadow(0 0 0px rgba(239,68,68,0))","drop-shadow(0 0 12px rgba(239,68,68,0.7))","drop-shadow(0 0 0px rgba(239,68,68,0))"]}} transition={{duration:1.8,repeat:Infinity}} style={{fontSize:30}}>🔥</motion.span>
+      </CardHeader>
+      <div style={{display:"flex",justifyContent:"center",position:"relative",marginBottom:10}}>
+        <CircleRing value={streak} max={goal}/>
+        <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",textAlign:"center"}}>
+          <motion.div initial={{opacity:0,scale:0.4}} animate={{opacity:1,scale:1}} transition={{delay:0.9,type:"spring",stiffness:220}} style={{fontWeight:900,fontSize:38,color:"#0f172a",lineHeight:1,letterSpacing:"-2px"}}>{streak}</motion.div>
+          <div style={{fontSize:10,color:"#64748b",fontWeight:700,marginTop:2}}>DAYS</div>
+        </div>
+      </div>
+      <motion.div animate={{opacity:[0.65,1,0.65]}} transition={{duration:2.5,repeat:Infinity}}
+        style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6,background:"linear-gradient(135deg,rgba(34,197,94,0.1),rgba(20,184,166,0.1))",border:"1px solid rgba(34,197,94,0.25)",borderRadius:12,padding:"8px 16px",marginBottom:14}}
+      >
+        <div style={{width:6,height:6,borderRadius:"50%",background:"#22c55e"}}/>
+        <span style={{fontSize:11.5,fontWeight:700,color:"#22c55e"}}>{goal-streak} days to Streak Master</span>
+      </motion.div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:5,marginBottom:4}}>
+        {Array.from({length:7}).map((_,i)=>(
+          <motion.div key={i} initial={{scale:0}} animate={{scale:1}} transition={{delay:0.5+i*0.06,type:"spring",stiffness:300}}
+            style={{height:26,borderRadius:7,background:i<5?"linear-gradient(135deg,#22c55e,#14b8a6)":"rgba(148,163,184,0.2)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:10,color:"#fff",boxShadow:i<5?"0 2px 8px rgba(34,197,94,0.3)":"none"}}
+          >{i<5?"✓":""}</motion.div>
+        ))}
+      </div>
+      <div style={{textAlign:"center",fontSize:10,color:"#94a3b8",fontWeight:600}}>THIS WEEK</div>
+    </GlassCard>
+  );
+}
+
+/* ── XP PROGRESS ────────────────────────── */
+function CountUp({from,to,duration=1.6,delay=0}){
+  const [val,setVal]=useState(from);
+  useEffect(()=>{
+    let start=null,raf;
+    const run=(ts)=>{
+      if(!start)start=ts;
+      const e=(ts-start)/1000;
+      if(e<delay){raf=requestAnimationFrame(run);return;}
+      const t=Math.min((e-delay)/duration,1);
+      setVal(Math.round(from+(to-from)*(1-Math.pow(1-t,3))));
+      if(t<1)raf=requestAnimationFrame(run);
+    };
+    raf=requestAnimationFrame(run);
+    return()=>cancelAnimationFrame(raf);
+  },[from,to,duration,delay]);
+  return <>{val.toLocaleString()}</>;
+}
+function XPProgress(){
+  const [showXP,setShowXP]=useState(false);
+  const [shimmer,setShimmer]=useState(false);
+  const curXP=3840,lvlXP=4000,pct=(curXP/lvlXP)*100;
+  const claim=()=>{setShowXP(true);setShimmer(true);setTimeout(()=>setShowXP(false),2200);setTimeout(()=>setShimmer(false),1200);};
+  return(
+    <GlassCard delay={0.15}>
+      <div style={{position:"absolute",top:-60,right:-60,width:200,height:200,background:"radial-gradient(circle,rgba(245,158,11,0.07),transparent 70%)",borderRadius:"50%",pointerEvents:"none"}}/>
+      <CardHeader title="XP Progress" sub="Advancing to Level 9">
+        <motion.span whileHover={{rotate:20,scale:1.2}} onClick={claim} style={{fontSize:26,cursor:"pointer"}}>⚡</motion.span>
+      </CardHeader>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
+        <div style={{display:"flex",gap:8,alignItems:"center"}}>
+          {["LVL 8","→","LVL 9"].map((t,i)=>(
+            <div key={i} style={i===1?{fontSize:13,color:"#64748b"}:{background:i===0?"linear-gradient(135deg,#f59e0b,#ef4444)":"linear-gradient(135deg,#22c55e,#14b8a6)",borderRadius:10,padding:"5px 12px",fontWeight:800,fontSize:13,color:"#fff",boxShadow:i===0?"0 3px 12px rgba(245,158,11,0.4)":"0 3px 12px rgba(34,197,94,0.4)",opacity:i===2?0.55:1}}>{t}</div>
+          ))}
+        </div>
+        <div style={{position:"relative"}}>
+          <span style={{fontWeight:800,fontSize:16,color:"#0f172a"}}><CountUp from={0} to={curXP} duration={1.8} delay={0.3}/></span>
+          <span style={{color:"#94a3b8",fontWeight:500,fontSize:12}}> / {lvlXP.toLocaleString()} XP</span>
+          <AnimatePresence>
+            {showXP&&<motion.div key="xp" initial={{opacity:1,y:0}} animate={{opacity:0,y:-40,scale:1.2}} exit={{}} transition={{duration:1.8}} style={{position:"absolute",top:-8,right:0,fontWeight:800,fontSize:15,color:"#22c55e",whiteSpace:"nowrap",textShadow:"0 2px 8px rgba(34,197,94,0.45)"}}>+120 XP ✨</motion.div>}
+          </AnimatePresence>
+        </div>
+      </div>
+      <div style={{height:13,borderRadius:99,background:"rgba(245,158,11,0.1)",overflow:"hidden",position:"relative",marginBottom:6}}>
+        <motion.div initial={{width:0}} animate={{width:`${pct}%`}} transition={{duration:1.8,ease:"easeOut",delay:0.4}} style={{height:"100%",borderRadius:99,background:"linear-gradient(90deg,#f59e0b,#ef4444)",position:"relative",overflow:"hidden"}}>
+          <motion.div animate={shimmer?{x:["-100%","220%"]}:{x:"-100%"}} transition={{duration:0.7}} style={{position:"absolute",inset:0,width:"50%",background:"linear-gradient(90deg,transparent,rgba(255,255,255,0.5),transparent)"}}/>
+        </motion.div>
+      </div>
+      <div style={{display:"flex",justifyContent:"space-between",fontSize:11,fontWeight:600,marginBottom:14}}>
+        <span style={{color:"#94a3b8"}}>{Math.round(pct)}% complete</span>
+        <span style={{color:"#f59e0b"}}>{lvlXP-curXP} XP remaining</span>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:9,marginBottom:14}}>
+        {[["💠","24,800","Total XP"],["📈","+960","This Week","#22c55e"],["🏅","+340","Best Day"]].map(([icon,val,lbl,clr],i)=>(
+          <motion.div key={i} whileHover={{scale:1.04}} style={{background:"rgba(248,250,252,0.85)",borderRadius:13,padding:"10px",border:"1px solid rgba(226,232,240,0.8)",textAlign:"center"}}>
+            <div style={{fontSize:15}}>{icon}</div>
+            <div style={{fontWeight:800,fontSize:14,color:clr||"#0f172a",marginTop:2}}>{val}</div>
+            <div style={{fontSize:10,color:"#94a3b8",fontWeight:600}}>{lbl}</div>
+          </motion.div>
+        ))}
+      </div>
+      <motion.button whileHover={{scale:1.02,boxShadow:"0 8px 28px rgba(245,158,11,0.45)"}} whileTap={{scale:0.97}} onClick={claim}
+        style={{width:"100%",padding:"12px",borderRadius:14,border:"none",cursor:"pointer",background:"linear-gradient(135deg,#f59e0b,#ef4444)",color:"#fff",fontWeight:700,fontSize:14,boxShadow:"0 4px 18px rgba(245,158,11,0.35)",transition:"box-shadow 0.3s"}}
+      >⚡ Claim Daily XP Bonus</motion.button>
+    </GlassCard>
+  );
+}
+
+/* ── DAILY MISSIONS ─────────────────────── */
+const INIT=[
+  {id:1,icon:"🤲",task:"Complete 2 volunteer activities",   xp:80, completed:false,diff:"Easy"  },
+  {id:2,icon:"👥",task:"Refer 1 new Sevak to the platform", xp:120,completed:false,diff:"Medium"},
+  {id:3,icon:"📝",task:"Log your daily impact report",      xp:50, completed:true, diff:"Easy"  },
+  {id:4,icon:"🌐",task:"Join a community discussion",       xp:60, completed:false,diff:"Easy"  },
+];
+const DC={Easy:"#22c55e",Medium:"#f59e0b",Hard:"#ef4444"};
+
+function RewardPopup({xp,onDone}){
+  return(
+    <motion.div initial={{scale:0,opacity:0,y:30}} animate={{scale:1,opacity:1,y:0}} exit={{scale:0.7,opacity:0,y:-30}} transition={{type:"spring",stiffness:300,damping:22}}
+      style={{position:"fixed",top:"50%",left:"50%",transform:"translate(-50%,-50%)",background:"linear-gradient(135deg,#0f172a,#1e293b)",border:"1px solid rgba(34,197,94,0.4)",borderRadius:24,padding:"28px 36px",textAlign:"center",zIndex:10000,boxShadow:"0 40px 100px rgba(0,0,0,0.5),0 0 60px rgba(34,197,94,0.2)",minWidth:280}}
+    >
+      <motion.div animate={{rotate:[0,18,-18,18,0],scale:[1,1.35,1]}} transition={{duration:0.65}} style={{fontSize:48,marginBottom:10}}>🎉</motion.div>
+      <div style={{fontWeight:900,fontSize:22,color:"#fff",marginBottom:4}}>Mission Complete!</div>
+      <motion.div initial={{scale:0}} animate={{scale:1}} transition={{delay:0.2,type:"spring",stiffness:280}} style={{fontWeight:800,fontSize:30,color:"#22c55e",textShadow:"0 0 20px rgba(34,197,94,0.6)"}}>+{xp} XP Earned!</motion.div>
+      <motion.button whileHover={{scale:1.05}} whileTap={{scale:0.95}} onClick={onDone} style={{marginTop:18,padding:"10px 28px",borderRadius:12,border:"none",background:"linear-gradient(135deg,#22c55e,#14b8a6)",color:"#fff",fontWeight:700,fontSize:14,cursor:"pointer"}}>Awesome! 🚀</motion.button>
+    </motion.div>
+  );
+}
+
+function MissionRow({m,onToggle,i}){
+  const [hov,setHov]=useState(false);
+  return(
+    <motion.div
+      initial={{opacity:0,x:-28}} animate={{opacity:1,x:0}}
+      transition={{delay:i*0.07,type:"spring",stiffness:150,damping:16}}
+      onHoverStart={()=>setHov(true)} onHoverEnd={()=>setHov(false)}
+      onClick={()=>onToggle(m.id)}
+      style={{display:"flex",alignItems:"center",gap:13,padding:"13px 15px",borderRadius:15,background:m.completed?"linear-gradient(135deg,rgba(34,197,94,0.07),rgba(20,184,166,0.07))":hov?"rgba(255,255,255,0.92)":"rgba(255,255,255,0.55)",border:`1.5px solid ${m.completed?"rgba(34,197,94,0.22)":hov?"rgba(59,130,246,0.22)":"rgba(255,255,255,0.7)"}`,backdropFilter:"blur(10px)",boxShadow:hov&&!m.completed?"0 8px 24px rgba(0,0,0,0.08)":"none",transform:hov&&!m.completed?"translateY(-2px)":"translateY(0)",transition:"all 0.25s cubic-bezier(0.34,1.56,0.64,1)",cursor:m.completed?"default":"pointer"}}
+    >
+      <motion.div whileHover={!m.completed?{scale:1.12}:{}} whileTap={!m.completed?{scale:0.82}:{}}
+        style={{width:24,height:24,borderRadius:8,flexShrink:0,border:`2px solid ${m.completed?"#22c55e":"rgba(148,163,184,0.5)"}`,background:m.completed?"linear-gradient(135deg,#22c55e,#14b8a6)":"transparent",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:m.completed?"0 2px 8px rgba(34,197,94,0.4)":"none",transition:"all 0.25s"}}
+      >
+        {m.completed&&<motion.div initial={{scale:0}} animate={{scale:1}} transition={{type:"spring",stiffness:400}} style={{color:"#fff",fontSize:11,fontWeight:900}}>✓</motion.div>}
+      </motion.div>
+      <div style={{fontSize:20}}>{m.icon}</div>
+      <div style={{flex:1,minWidth:0}}>
+        <div style={{fontWeight:600,fontSize:13,color:m.completed?"#64748b":"#0f172a",textDecoration:m.completed?"line-through":"none",lineHeight:1.35}}>{m.task}</div>
+        <span style={{display:"inline-block",marginTop:3,fontSize:10,fontWeight:700,color:DC[m.diff],background:`${DC[m.diff]}18`,padding:"2px 7px",borderRadius:99}}>{m.diff}</span>
+      </div>
+      <div style={{fontWeight:800,fontSize:12,color:m.completed?"#22c55e":"#f59e0b",background:m.completed?"rgba(34,197,94,0.1)":"rgba(245,158,11,0.1)",padding:"4px 9px",borderRadius:99,flexShrink:0,border:`1px solid ${m.completed?"rgba(34,197,94,0.25)":"rgba(245,158,11,0.25)"}`}}>+{m.xp} XP</div>
+    </motion.div>
+  );
+}
+
+function DailyMissions(){
+  const [missions,setMissions]=useState(INIT);
+  const [popup,setPopup]=useState(null);
+  const done=missions.filter(m=>m.completed).length,total=missions.length;
+  const toggle=(id)=>{
+    const m=missions.find(m=>m.id===id);
+    if(m.completed)return;
+    setMissions(prev=>prev.map(x=>x.id===id?{...x,completed:true}:x));
+    setPopup({xp:m.xp});
+  };
+  return(
+    <>
+      <AnimatePresence>
+        {popup&&<>
+          <motion.div key="ov" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.45)",backdropFilter:"blur(5px)",zIndex:9999}} onClick={()=>setPopup(null)}/>
+          <RewardPopup key="rp" xp={popup.xp} onDone={()=>setPopup(null)}/>
+        </>}
+      </AnimatePresence>
+      <GlassCard delay={0.2}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:14}}>
+          <div>
+            <div style={{fontWeight:800,fontSize:18,color:"#0f172a",letterSpacing:"-0.4px"}}>Daily Missions</div>
+            <div style={{fontSize:12,color:"#64748b",marginTop:2}}>Resets in 8h 42m</div>
+          </div>
+          <div style={{textAlign:"right"}}>
+            <div style={{fontWeight:800,fontSize:18,color:"#0f172a"}}>{done}/{total}</div>
+            <div style={{fontSize:10,color:"#64748b",fontWeight:600}}>DONE</div>
+          </div>
+        </div>
+        <div style={{marginBottom:14}}>
+          <div style={{display:"flex",justifyContent:"space-between",fontSize:11,color:"#94a3b8",fontWeight:600,marginBottom:4}}>
+            <span>Daily Progress</span><span>{Math.round((done/total)*100)}%</span>
+          </div>
+          <div style={{height:6,borderRadius:99,background:"rgba(59,130,246,0.1)",overflow:"hidden"}}>
+            <motion.div animate={{width:`${(done/total)*100}%`}} transition={{duration:0.6,ease:"easeOut"}} style={{height:"100%",borderRadius:99,background:"linear-gradient(90deg,#3b82f6,#14b8a6)"}}/>
+          </div>
+        </div>
+        <div style={{display:"flex",flexDirection:"column",gap:10}}>
+          {missions.map((m,i)=><MissionRow key={m.id} m={m} i={i} onToggle={toggle}/>)}
+        </div>
+        <AnimatePresence>
+          {done===total&&<motion.div initial={{opacity:0,scale:0.88}} animate={{opacity:1,scale:1}} exit={{opacity:0}} transition={{type:"spring",stiffness:200}} style={{marginTop:12,padding:"12px",background:"linear-gradient(135deg,rgba(34,197,94,0.1),rgba(20,184,166,0.1))",borderRadius:13,textAlign:"center",border:"1px solid rgba(34,197,94,0.28)"}}>
+            <span style={{fontWeight:800,fontSize:13,color:"#22c55e"}}>🎯 All missions complete! Bonus: +50 XP</span>
+          </motion.div>}
+        </AnimatePresence>
+      </GlassCard>
+    </>
+  );
+}
+
+/* ── BG ORBS ────────────────────────────── */
+function BgOrbs(){
+  return(
+    <div style={{position:"absolute",inset:0,overflow:"hidden",pointerEvents:"none",zIndex:0}}>
+      {[
+        {top:"5%", left:"8%",  size:400,c:"rgba(34,197,94,0.06)", dur:7 },
+        {top:"45%",right:"4%", size:320,c:"rgba(59,130,246,0.06)",dur:9,left:undefined},
+        {top:"72%",left:"28%", size:300,c:"rgba(20,184,166,0.05)",dur:11},
+      ].map((o,i)=>(
+        <motion.div key={i} animate={{scale:[1,1.12,1],opacity:[0.7,1,0.7]}} transition={{duration:o.dur,repeat:Infinity,ease:"easeInOut",delay:i*2}}
+          style={{position:"absolute",top:o.top,left:o.left,right:o.right,width:o.size,height:o.size,borderRadius:"50%",background:`radial-gradient(circle,${o.c},transparent)`,transform:"translate(-50%,-50%)"}}/>
+      ))}
+    </div>
+  );
+}
+
+/* ── ROOT ───────────────────────────────── */
+function App(){
+  return(
+    <div style={{position:"relative",minHeight:"100vh",background:"linear-gradient(160deg,#f0fdf4 0%,#f0f9ff 45%,#eff6ff 100%)",fontFamily:"'DM Sans',system-ui,sans-serif",padding:"60px 24px 80px",boxSizing:"border-box"}}>
+      <BgOrbs/>
+      <div style={{position:"relative",zIndex:1,maxWidth:1200,margin:"0 auto"}}>
+
+        {/* HEADER */}
+        <motion.div initial={{opacity:0,y:-20}} animate={{opacity:1,y:0}} transition={{duration:0.6}} style={{textAlign:"center",marginBottom:48}}>
+          <motion.div animate={{opacity:[0.7,1,0.7]}} transition={{duration:3,repeat:Infinity}}
+            style={{display:"inline-flex",alignItems:"center",gap:8,background:"linear-gradient(135deg,rgba(34,197,94,0.1),rgba(20,184,166,0.1))",border:"1px solid rgba(34,197,94,0.25)",borderRadius:99,padding:"6px 18px",marginBottom:14,fontSize:12,fontWeight:700,color:"#22c55e",backdropFilter:"blur(10px)"}}
+          >
+            <motion.span animate={{scale:[1,1.3,1]}} transition={{duration:1.2,repeat:Infinity}}>🎮</motion.span>
+            ENGAGEMENT HUB
+          </motion.div>
+          <h2 style={{fontFamily:"'DM Sans',system-ui,sans-serif",fontWeight:900,fontSize:"clamp(28px,4vw,42px)",background:"linear-gradient(135deg,#0f172a 0%,#14b8a6 50%,#3b82f6 100%)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text",margin:"0 0 10px",letterSpacing:"-1.5px",lineHeight:1.12}}>
+            Sevak Engagement &<br/>Gamification Hub
+          </h2>
+          <p style={{color:"#64748b",fontSize:15,fontWeight:500,maxWidth:480,margin:"0 auto"}}>Grow your impact, earn rewards, and climb the leaderboard with your community.</p>
+        </motion.div>
+
+        {/* ROW 1 */}
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(340px,1fr))",gap:22,marginBottom:22}}>
+          <Leaderboard/>
+          <AchievementGrid/>
+        </div>
+
+        {/* ROW 2 */}
+        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(300px,1fr))",gap:22}}>
+          <StreakCard/>
+          <XPProgress/>
+          <DailyMissions/>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>

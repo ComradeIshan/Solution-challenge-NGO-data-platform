@@ -1,0 +1,469 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Navbar.css  ·  UnityNet — Light SaaS Design System
+   Clean · Modern · Minimal · Consistent with ForYou section
+═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Design tokens ───────────────────────────────────────────────────────── */
+:root {
+  /* Brand */
+  --green:        #22c55e;
+  --green-dark:   #16a34a;
+  --green-mid:    #15803d;
+  --blue:         #3b82f6;
+  --teal:         #14b8a6;
+
+  /* Surfaces */
+  --bg-white:     #ffffff;
+  --bg-subtle:    #f8fafc;
+  --bg-hover:     rgba(34, 197, 94, 0.07);
+  --bg-active:    rgba(34, 197, 94, 0.10);
+
+  /* Borders */
+  --border:       rgba(0, 0, 0, 0.07);
+  --border-mid:   rgba(0, 0, 0, 0.10);
+
+  /* Text */
+  --text-primary:   #0f172a;
+  --text-secondary: #475569;
+  --text-muted:     #94a3b8;
+
+  /* Shadows */
+  --shadow-sm:    0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-nav:   0 4px 20px rgba(0, 0, 0, 0.06);
+  --shadow-nav-scrolled: 0 6px 24px rgba(0, 0, 0, 0.08);
+  --shadow-cta:   0 4px 14px rgba(34, 197, 94, 0.24);
+  --shadow-cta-hover: 0 8px 24px rgba(34, 197, 94, 0.32);
+
+  /* Typography */
+  --font: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Layout */
+  --nav-h:        64px;
+  --nav-h-mobile: 58px;
+  --max-w:        1200px;
+  --radius-sm:    7px;
+  --radius-btn:   9px;
+
+  /* Easing */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Google Fonts ────────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ── Reset ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   NAV SHELL
+═══════════════════════════════════════════════════════════════════════════ */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  height: var(--nav-h);
+  display: flex;
+  align-items: center;
+
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+
+  /* transition into scrolled state */
+  transition:
+    background         0.35s var(--ease),
+    backdrop-filter    0.35s var(--ease),
+    border-color       0.35s var(--ease),
+    box-shadow         0.35s var(--ease);
+}
+
+/* scrolled: increase blur + soft shadow */
+.nav--scrolled {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom-color: var(--border-mid);
+  box-shadow: var(--shadow-nav-scrolled);
+}
+
+/* ── Inner container ─────────────────────────────────────────────────────── */
+.nav-inner {
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LOGO
+═══════════════════════════════════════════════════════════════════════════ */
+.logo {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 1px;
+  text-decoration: none;
+  font-family: var(--font);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin-right: auto;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.logo-unity {
+  color: var(--text-primary);
+}
+
+/* gradient accent on "Net" — clean, no shimmer animation */
+.logo-net {
+  background: linear-gradient(135deg, var(--green) 0%, var(--blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESKTOP NAV LINKS
+═══════════════════════════════════════════════════════════════════════════ */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.nav-link {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 14px;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  letter-spacing: -0.005em;
+
+  /* smooth color + bg transitions */
+  transition:
+    color      0.18s ease,
+    background 0.18s ease;
+}
+
+.nav-link:hover {
+  color: var(--green-dark);
+  background: var(--bg-hover);
+}
+
+.nav-link--active {
+  color: var(--green-dark);
+  font-weight: 600;
+  background: var(--bg-active);
+}
+
+/* ── Underline bar ───────────────────────────────────────────────────────── */
+.nav-link-bar {
+  display: block;
+  position: absolute;
+  bottom: 3px;
+  left: 14px;
+  right: 14px;
+  height: 2px;
+  border-radius: 2px;
+  overflow: hidden;
+  background: transparent;
+}
+
+.nav-link-bar-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--green), var(--teal));
+  /* framer motion drives scaleX */
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CTA BUTTON
+═══════════════════════════════════════════════════════════════════════════ */
+.nav-cta-wrap {
+  margin-left: 20px;
+  flex-shrink: 0;
+}
+
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 20px;
+  font-family: var(--font);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  border-radius: var(--radius-btn);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+
+  /* Green gradient */
+  background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+  box-shadow: var(--shadow-cta);
+  border: 1px solid rgba(22, 163, 74, 0.2);
+
+  /* CSS transition for fallback; Framer Motion handles y + shadow on hover */
+  transition:
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.nav-cta:hover {
+  border-color: rgba(22, 163, 74, 0.35);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HAMBURGER
+═══════════════════════════════════════════════════════════════════════════ */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4.5px;
+  width: 38px;
+  height: 38px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  padding: 0;
+  margin-left: 14px;
+  flex-shrink: 0;
+  transition:
+    background    0.18s ease,
+    border-color  0.18s ease;
+}
+
+.nav-hamburger:hover {
+  background: var(--bg-hover);
+  border-color: rgba(34, 197, 94, 0.25);
+}
+
+.nav-hamburger--open {
+  background: var(--bg-active);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+/* hamburger lines */
+.ham-line {
+  display: block;
+  width: 16px;
+  height: 1.5px;
+  background: var(--text-primary);
+  border-radius: 2px;
+  transform-origin: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOBILE BACKDROP
+═══════════════════════════════════════════════════════════════════════════ */
+.mobile-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 48;
+  background: rgba(15, 23, 42, 0.18);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  cursor: pointer;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOBILE MENU PANEL
+═══════════════════════════════════════════════════════════════════════════ */
+.mobile-menu {
+  position: fixed;
+  top: calc(var(--nav-h-mobile) + 8px);
+  left: 12px;
+  right: 12px;
+  z-index: 51;
+
+  background: var(--bg-white);
+  border: 1px solid var(--border-mid);
+  border-radius: 14px;
+  padding: 10px 10px 16px;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.04),
+    0 10px 32px rgba(0, 0, 0, 0.10);
+}
+
+/* ── Mobile links ─────────────────────────────────────────────────────────── */
+.mobile-nav-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 9px;
+  border: 1px solid transparent;
+
+  transition:
+    background    0.16s ease,
+    color         0.16s ease,
+    border-color  0.16s ease;
+}
+
+.mobile-nav-link:hover {
+  background: var(--bg-hover);
+  color: var(--green-dark);
+  border-color: rgba(34, 197, 94, 0.15);
+}
+
+.mobile-nav-link--active {
+  background: var(--bg-active);
+  color: var(--green-dark);
+  font-weight: 600;
+  border-color: rgba(34, 197, 94, 0.18);
+}
+
+/* small dot indicator */
+.mobile-link-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--green);
+  opacity: 0.45;
+  flex-shrink: 0;
+  transition: opacity 0.16s ease;
+}
+
+.mobile-nav-link:hover .mobile-link-dot,
+.mobile-nav-link--active .mobile-link-dot {
+  opacity: 1;
+}
+
+/* ── Divider ──────────────────────────────────────────────────────────────── */
+.mobile-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 10px 4px;
+}
+
+/* ── Mobile CTA ───────────────────────────────────────────────────────────── */
+.mobile-nav-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px 20px;
+  font-family: var(--font);
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 11px;
+  letter-spacing: -0.01em;
+
+  background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+  box-shadow: var(--shadow-cta);
+  border: 1px solid rgba(22, 163, 74, 0.2);
+
+  transition: box-shadow 0.2s ease;
+}
+
+.mobile-nav-cta:hover {
+  box-shadow: var(--shadow-cta-hover);
+}
+
+/* ── Tagline ──────────────────────────────────────────────────────────────── */
+.mobile-tagline {
+  margin: 12px 4px 0;
+  font-family: var(--font);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE — MOBILE
+═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .nav {
+    height: var(--nav-h-mobile);
+  }
+
+  .nav-links,
+  .nav-cta-wrap {
+    display: none;
+  }
+
+  .nav-hamburger {
+    display: flex;
+  }
+
+  .nav-inner {
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobile-menu {
+    left: 8px;
+    right: 8px;
+  }
+
+  .logo {
+    font-size: 18px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FOCUS / ACCESSIBILITY
+═══════════════════════════════════════════════════════════════════════════ */
+.nav-link:focus-visible,
+.nav-cta:focus-visible,
+.nav-hamburger:focus-visible,
+.mobile-nav-link:focus-visible,
+.mobile-nav-cta:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PAGE OFFSET UTILITY
+   Add class="page-content" to your <main> to clear the fixed navbar
+═══════════════════════════════════════════════════════════════════════════ */
+.page-content {
+  padding-top: var(--nav-h);
+}
+
+@media (max-width: 768px) {
+  .page-content {
+    padding-top: var(--nav-h-mobile);
+  }
+}
