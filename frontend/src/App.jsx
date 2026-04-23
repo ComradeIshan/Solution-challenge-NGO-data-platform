@@ -12,6 +12,7 @@ import MatchingSection from "./pages/MatchingSection";
 import AICommandCenter from "./pages/AICommandCenter";
 import ImpactIntelligence from "./pages/ImpactIntelligence";
 import Reports from "./pages/Reports";
+import "./styles/theme.css";
 
 export default function App() {
   return (
