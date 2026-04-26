@@ -76,8 +76,12 @@ const wordReveal = {
 };
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
-  show:   { opacity: 1, y: 0, transition: { duration: 0.65, ease: EASE } },
+  hidden: { opacity: 0, y: 40 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8 }
+  }
 };
 
 
@@ -891,7 +895,7 @@ export default function CTASection() {
             marginBottom: "16px",
           }}
         >
-          <motion.div variants={fadeUp}>
+          {/* <motion.div variants={fadeUp}>
             <CTAButton
               label="Join as Sevak"
               icon="🌱"
@@ -903,8 +907,8 @@ export default function CTASection() {
               label="Register NGO"
               icon="🏛️"
               variant="secondary"
-            />
-          </motion.div>
+            /> */}
+          {/* </motion.div> */}
         </motion.div>
 
         {/* Urgency line */}

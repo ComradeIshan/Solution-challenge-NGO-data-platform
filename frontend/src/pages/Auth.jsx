@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
-  auth, db, googleProvider,
+  auth,
+  db,
+  googleProvider,
   signInWithPopup,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   updateProfile,
   sendPasswordResetEmail,
-  doc, setDoc, serverTimestamp,
+  doc,
+  setDoc,
+  serverTimestamp,
 } from "../services/firebase";
-
 
 import {
   motion,
@@ -331,8 +334,8 @@ const LeftPanel = () => {
             margin: "0 auto 2rem",
           }}
         >
-          UnityNet bridges passionate volunteers with NGOs that need them most —
-          creating real change at scale.
+          DigitalSevaks bridges passionate volunteers with NGOs that need them
+          most — creating real change at scale.
         </p>
 
         {/* Stats */}
@@ -882,43 +885,50 @@ const SignInForm = ({ onSwitch }) => {
   };
 
   const handleGoogle = async () => {
-  setLoading(true);
-  try {
-    const result = await signInWithPopup(auth, googleProvider);
-    const user = result.user;
-    // Save to Firestore (merge so existing users aren't overwritten)
-    await setDoc(doc(db, "users", user.uid), {
-      email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      updatedAt: serverTimestamp(),
-    }, { merge: true });
-    setDone(true);
-  } catch (err) {
-    setErrors({ email: err.message });
-  } finally {
-    setLoading(false);
-  }
-};
+    setLoading(true);
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      // Save to Firestore (merge so existing users aren't overwritten)
+      await setDoc(
+        doc(db, "users", user.uid),
+        {
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+          updatedAt: serverTimestamp(),
+        },
+        { merge: true },
+      );
+      setDone(true);
+    } catch (err) {
+      setErrors({ email: err.message });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const submit = async () => {
-  const e = validate();
-  if (Object.keys(e).length) { setErrors(e); return; }
-  setErrors({});
-  setLoading(true);
-  try {
-    await signInWithEmailAndPassword(auth, email, pass);
-    setDone(true);
-  } catch (err) {
-    const msg =
-      err.code === "auth/user-not-found" || err.code === "auth/wrong-password"
-        ? "Invalid email or password"
-        : err.message;
-    setErrors({ pass: msg });
-  } finally {
-    setLoading(false);
-  }
-};
+    const e = validate();
+    if (Object.keys(e).length) {
+      setErrors(e);
+      return;
+    }
+    setErrors({});
+    setLoading(true);
+    try {
+      await signInWithEmailAndPassword(auth, email, pass);
+      setDone(true);
+    } catch (err) {
+      const msg =
+        err.code === "auth/user-not-found" || err.code === "auth/wrong-password"
+          ? "Invalid email or password"
+          : err.message;
+      setErrors({ pass: msg });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (done)
     return (
@@ -954,7 +964,8 @@ const SignInForm = ({ onSwitch }) => {
       </div>
 
       {/* Google */}
-      <motion.button onClick={handleGoogle}
+      <motion.button
+        onClick={handleGoogle}
         whileHover={{ y: -2, boxShadow: "0 8px 24px rgba(0,0,0,0.1)" }}
         whileTap={{ scale: 0.97 }}
         style={{
@@ -1006,24 +1017,24 @@ const SignInForm = ({ onSwitch }) => {
       />
 
       <FloatInput
-  label="Password"
-  type={showPw ? "text" : "password"}
-  value={pass}
-  onChange={(e) => {
-    setPass(e.target.value);
-    setErrors((p) => ({ ...p, pass: "" }));
-  }}
-  error={errors.pass}
-  icon={<IconLock />}
-  rightEl={
-    <button
-      onClick={() => setShowPw((p) => !p)}
-      style={{ background: "none", border: "none", cursor: "pointer" }}
-    >
-      {showPw ? <IconEyeOff /> : <IconEye />}
-    </button>
-  }
-/>
+        label="Password"
+        type={showPw ? "text" : "password"}
+        value={pass}
+        onChange={(e) => {
+          setPass(e.target.value);
+          setErrors((p) => ({ ...p, pass: "" }));
+        }}
+        error={errors.pass}
+        icon={<IconLock />}
+        rightEl={
+          <button
+            onClick={() => setShowPw((p) => !p)}
+            style={{ background: "none", border: "none", cursor: "pointer" }}
+          >
+            {showPw ? <IconEyeOff /> : <IconEye />}
+          </button>
+        }
+      />
 
       <div
         style={{
@@ -1033,20 +1044,28 @@ const SignInForm = ({ onSwitch }) => {
         }}
       >
         <motion.span
-  whileHover={{ color: G.greenDark }}
-  onClick={async () => {
-    if (!email) { setErrors({ email: "Enter your email first" }); return; }
-    try {
-      await sendPasswordResetEmail(auth, email);
-      alert("Password reset link sent to your email!");
-    } catch (err) {
-      setErrors({ email: err.message });
-    }
-  }}
-  style={{ fontSize: 13, color: G.green, fontWeight: 600, cursor: "pointer" }}
->
-  Forgot password?
-</motion.span>
+          whileHover={{ color: G.greenDark }}
+          onClick={async () => {
+            if (!email) {
+              setErrors({ email: "Enter your email first" });
+              return;
+            }
+            try {
+              await sendPasswordResetEmail(auth, email);
+              alert("Password reset link sent to your email!");
+            } catch (err) {
+              setErrors({ email: err.message });
+            }
+          }}
+          style={{
+            fontSize: 13,
+            color: G.green,
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
+        >
+          Forgot password?
+        </motion.span>
       </div>
 
       <PrimaryBtn onClick={submit} loading={loading}>
@@ -1064,7 +1083,7 @@ const SignInForm = ({ onSwitch }) => {
           marginTop: 20,
         }}
       >
-        New to UnityNet?{" "}
+        New to DigitalSevaks?{" "}
         <motion.span
           whileHover={{ color: G.greenDark }}
           onClick={onSwitch}
@@ -1202,42 +1221,47 @@ const VolunteerSteps = ({ onBack, onDone }) => {
     setDir(1);
     if (step < 2) {
       setStep((s) => s + 1);
-   } else {
-  setLoading(true);
-  try {
-    // 1. Create Firebase Auth user
-    const { user } = await createUserWithEmailAndPassword(auth, data.email, data.pass);
+    } else {
+      setLoading(true);
+      try {
+        // 1. Create Firebase Auth user
+        const { user } = await createUserWithEmailAndPassword(
+          auth,
+          data.email,
+          data.pass,
+        );
 
-    // 2. Set display name in Firebase Auth
-    await updateProfile(user, { displayName: data.name });
+        // 2. Set display name in Firebase Auth
+        await updateProfile(user, { displayName: data.name });
 
-    // 3. Save full volunteer profile to Firestore
-    await setDoc(doc(db, "users", user.uid), {
-      role: "volunteer",
-      name: data.name,
-      email: data.email,
-      skills: data.skills,
-      causes: data.causes,
-      availability: data.avail,
-      city: data.city,
-      state: data.state,
-      bio: data.bio,
-      createdAt: serverTimestamp(),
-    });
+        // 3. Save full volunteer profile to Firestore
+        await setDoc(doc(db, "users", user.uid), {
+          role: "volunteer",
+          name: data.name,
+          email: data.email,
+          skills: data.skills,
+          causes: data.causes,
+          availability: data.avail,
+          city: data.city,
+          state: data.state,
+          bio: data.bio,
+          createdAt: serverTimestamp(),
+        });
 
-    onDone();
-  } catch (err) {
-    setErrors({
-      name: err.code === "auth/email-already-in-use"
-        ? "This email is already registered"
-        : err.message,
-    });
-    setDir(-1);
-    setStep(0); // send back to email/pass step
-  } finally {
-    setLoading(false);
-  }
-}
+        onDone();
+      } catch (err) {
+        setErrors({
+          name:
+            err.code === "auth/email-already-in-use"
+              ? "This email is already registered"
+              : err.message,
+        });
+        setDir(-1);
+        setStep(0); // send back to email/pass step
+      } finally {
+        setLoading(false);
+      }
+    }
   };
   const goBack = () => {
     if (step === 0) {
@@ -1578,40 +1602,45 @@ const NgoSteps = ({ onBack, onDone }) => {
     if (step < 2) {
       setStep((s) => s + 1);
     } else {
-  setLoading(true);
-  try {
-    const { user } = await createUserWithEmailAndPassword(auth, data.email, data.pass);
+      setLoading(true);
+      try {
+        const { user } = await createUserWithEmailAndPassword(
+          auth,
+          data.email,
+          data.pass,
+        );
 
-    await updateProfile(user, { displayName: data.orgName });
+        await updateProfile(user, { displayName: data.orgName });
 
-    await setDoc(doc(db, "users", user.uid), {
-      role: "ngo",
-      orgName: data.orgName,
-      email: data.email,
-      ngoType: data.ngoType,
-      regNum: data.regNum,
-      yearsInOperation: data.years,
-      city: data.city,
-      state: data.state,
-      description: data.desc,
-      volunteerRequirements: data.volReq,
-      verified: false,
-      createdAt: serverTimestamp(),
-    });
+        await setDoc(doc(db, "users", user.uid), {
+          role: "ngo",
+          orgName: data.orgName,
+          email: data.email,
+          ngoType: data.ngoType,
+          regNum: data.regNum,
+          yearsInOperation: data.years,
+          city: data.city,
+          state: data.state,
+          description: data.desc,
+          volunteerRequirements: data.volReq,
+          verified: false,
+          createdAt: serverTimestamp(),
+        });
 
-    onDone();
-  } catch (err) {
-    setErrors({
-      orgName: err.code === "auth/email-already-in-use"
-        ? "This email is already registered"
-        : err.message,
-    });
-    setDir(-1);
-    setStep(0);
-  } finally {
-    setLoading(false);
-  }
-}
+        onDone();
+      } catch (err) {
+        setErrors({
+          orgName:
+            err.code === "auth/email-already-in-use"
+              ? "This email is already registered"
+              : err.message,
+        });
+        setDir(-1);
+        setStep(0);
+      } finally {
+        setLoading(false);
+      }
+    }
   };
   const goBack = () => {
     if (step === 0) {
@@ -1888,7 +1917,7 @@ const SignUpFlow = ({ onSwitch }) => {
         title={role === "volunteer" ? "You're a Volunteer!" : "NGO Registered!"}
         sub={
           role === "volunteer"
-            ? "Your impact journey begins now — welcome to UnityNet."
+            ? "Your impact journey begins now — welcome to DigitalSevaks."
             : "We'll review your application within 48 hours."
         }
       />
@@ -1923,7 +1952,7 @@ const SignUpFlow = ({ onSwitch }) => {
             marginBottom: 6,
           }}
         >
-          Join UnityNet
+          Join DigitalSevaks
         </h2>
         <p style={{ fontSize: "0.85rem", color: G.textSecondary }}>
           Choose how you want to make an impact
@@ -2058,7 +2087,7 @@ const AuthCard = () => {
 };
 
 // ─── MAIN APP ──────────────────────────────────────────────────────────────────
-export default function UnityNetAuth() {
+export default function DigitalSevaksAuth() {
   return (
     <>
       <FontLink />

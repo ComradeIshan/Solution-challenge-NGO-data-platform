@@ -1,30 +1,26 @@
-import { LayoutDashboard, Users, FileText } from "lucide-react";
 import React from "react";
+import { NavLink } from "react-router-dom";
+
+const linkStyle = ({ isActive }) => ({
+  display: "block",
+  padding: "10px 16px",
+  borderRadius: "8px",
+  marginBottom: "6px",
+  background: isActive ? "#111" : "transparent",
+  color: isActive ? "#fff" : "#555",
+  textDecoration: "none",
+});
 
 export default function Sidebar() {
   return (
-    <div className="w-64 bg-white border-r p-6 hidden md:block">
+    <div style={{ width: "220px", padding: "20px" }}>
+      <h3>Dashboard</h3>
 
-      <h1 className="text-xl font-semibold mb-8">
-        Unity<span className="text-green-500">Net</span>
-      </h1>
-
-      <nav className="space-y-4 text-sm">
-        <SidebarItem icon={LayoutDashboard} label="Dashboard" active />
-        <SidebarItem icon={Users} label="Volunteers" />
-        <SidebarItem icon={FileText} label="Reports" />
-      </nav>
-    </div>
-  );
-}
-
-function SidebarItem({ icon: Icon, label, active }) {
-  return (
-    <div className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition 
-      ${active ? "bg-gray-100 font-medium" : "hover:bg-gray-50"}`}>
-      
-      <Icon size={18} />
-      {label}
+      <NavLink to="/dashboard" style={linkStyle}>Overview</NavLink>
+      <NavLink to="/analytics" style={linkStyle}>Analytics</NavLink>
+      <NavLink to="/ai-insights" style={linkStyle}>AI Insights</NavLink>
+      <NavLink to="/leaderboard" style={linkStyle}>Leaderboard</NavLink>
+      <NavLink to="/reports" style={linkStyle}>Reports</NavLink>
     </div>
   );
 }

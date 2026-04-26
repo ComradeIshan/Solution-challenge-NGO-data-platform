@@ -704,8 +704,8 @@ function LeftContent({ inView }) {
         transition={{ duration: 0.45, delay: 0.62 }}
         style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}
       >
-        <MagneticCTA label="Share Your Story" variant="primary" />
-        <MagneticCTA label="Read All Stories" variant="secondary" />
+        {/* <MagneticCTA label="Share Your Story" variant="primary" />
+        <MagneticCTA label="Read All Stories" variant="secondary" /> */}
       </motion.div>
 
       {/* Connecting line accent */}

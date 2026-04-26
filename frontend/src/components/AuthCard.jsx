@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 /* ── tiny helpers ── */
 const isValidEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
-
 /* Google icon SVG */
 function GoogleIcon() {
   return (
@@ -168,9 +167,9 @@ export default function AuthCard() {
     setLoading(false);
     setSubmitted(true);
 
-setTimeout(() => {
-  navigate("/dashboard");
-}, 1200);
+    setTimeout(() => {
+      navigate("/dashboard");
+    }, 1200);
   }
 
   async function handleForgot() {
@@ -359,7 +358,7 @@ setTimeout(() => {
             >
               {mode === "login"
                 ? "You're now signed in. Redirecting to your dashboard…"
-                : "Your UnityNet account is ready. Let's get started."}
+                : "Your DigitalSevaks account is ready. Let's get started."}
             </p>
             <MagButton style={{ width: "100%", padding: "14px" }}>
               Go to Dashboard →
@@ -388,7 +387,9 @@ setTimeout(() => {
                   letterSpacing: "-0.3px",
                 }}
               >
-                {mode === "login" ? "Sign in to UnityNet" : "Join UnityNet"}
+                {mode === "login"
+                  ? "Sign in to DigitalSevaks"
+                  : "Join DigitalSevaks"}
               </h2>
               <p
                 style={{
@@ -632,7 +633,7 @@ setTimeout(() => {
               }}
             >
               {mode === "login"
-                ? "New to UnityNet? "
+                ? "New to DigitalSevaks? "
                 : "Already have an account? "}
               <button
                 type="button"

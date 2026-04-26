@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────
    animations/variants.js
-   Shared Framer Motion variants for UnityNet.
+   Shared Framer Motion variants for DigitalSevaks.
    Matches the cubic-bezier(.16,1,.3,1) system
    used throughout the landing page.
 ───────────────────────────────────────── */
@@ -11,10 +11,11 @@ export const SPRING_SLOW = { type: "spring", stiffness: 200, damping: 24 };
 
 /* Fade up — standard scroll/mount reveal */
 export const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 40 },
   show: {
-    opacity: 1, y: 0,
-    transition: { duration: 0.72, ease: EASE },
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.8, ease: EASE },
   },
 };
 
@@ -31,7 +32,8 @@ export const fadeIn = {
 export const slideUp = {
   hidden: { opacity: 0, y: 14 },
   show: {
-    opacity: 1, y: 0,
+    opacity: 1,
+    y: 0,
     transition: { duration: 0.48, ease: EASE },
   },
 };
@@ -40,7 +42,8 @@ export const slideUp = {
 export const slideLeft = {
   hidden: { opacity: 0, x: -32 },
   show: {
-    opacity: 1, x: 0,
+    opacity: 1,
+    x: 0,
     transition: { duration: 0.65, ease: EASE },
   },
 };
@@ -49,7 +52,8 @@ export const slideLeft = {
 export const slideRight = {
   hidden: { opacity: 0, x: 32 },
   show: {
-    opacity: 1, x: 0,
+    opacity: 1,
+    x: 0,
     transition: { duration: 0.65, ease: EASE },
   },
 };
@@ -58,7 +62,8 @@ export const slideRight = {
 export const softScale = {
   hidden: { opacity: 0, scale: 0.94 },
   show: {
-    opacity: 1, scale: 1,
+    opacity: 1,
+    scale: 1,
     transition: { duration: 0.45, ease: EASE },
   },
 };
@@ -105,7 +110,12 @@ export const floatB = {
 export const floatC = {
   animate: {
     y: [0, -14, 0],
-    transition: { duration: 5.5, ease: "easeInOut", repeat: Infinity, delay: 0.6 },
+    transition: {
+      duration: 5.5,
+      ease: "easeInOut",
+      repeat: Infinity,
+      delay: 0.6,
+    },
   },
 };
 
@@ -113,11 +123,13 @@ export const floatC = {
 export const pageTransition = {
   initial: { opacity: 0, y: 16 },
   animate: {
-    opacity: 1, y: 0,
+    opacity: 1,
+    y: 0,
     transition: { duration: 0.55, ease: EASE },
   },
   exit: {
-    opacity: 0, y: -10,
+    opacity: 0,
+    y: -10,
     transition: { duration: 0.28, ease: "easeIn" },
   },
 };

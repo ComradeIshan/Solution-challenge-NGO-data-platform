@@ -30,8 +30,6 @@ const T = {
   radiusSm: "10px",
 };
 
-
-
 // ─── Animated counter hook ──────────────────────────────────────────────────────
 function useCountUp(target, duration = 1800, inView = false) {
   const [value, setValue] = useState(0);
@@ -70,7 +68,7 @@ function MetricCard({
   const glowY = useSpring(y, { stiffness: 200, damping: 24 });
 
   const glowXTrans = useTransform(glowX, (v) => v - 80);
-const glowYTrans = useTransform(glowY, (v) => v - 80);
+  const glowYTrans = useTransform(glowY, (v) => v - 80);
 
   const onMouseMove = (e) => {
     const r = e.currentTarget.getBoundingClientRect();
@@ -118,19 +116,19 @@ const glowYTrans = useTransform(glowY, (v) => v - 80);
     >
       {/* Cursor glow */}
       {hovered && (
-  <motion.div
-    style={{
-      position: "absolute",
-      width: 160,
-      height: 160,
-      borderRadius: "50%",
-      background: `radial-gradient(circle, ${accent}18 0%, transparent 70%)`,
-      x: glowXTrans,
-      y: glowYTrans,
-      pointerEvents: "none",
-    }}
-  />
-)}
+        <motion.div
+          style={{
+            position: "absolute",
+            width: 160,
+            height: 160,
+            borderRadius: "50%",
+            background: `radial-gradient(circle, ${accent}18 0%, transparent 70%)`,
+            x: glowXTrans,
+            y: glowYTrans,
+            pointerEvents: "none",
+          }}
+        />
+      )}
 
       {/* Top row */}
       <div
@@ -544,9 +542,9 @@ function CTAButton({ children }) {
   const [hov, setHov] = useState(false);
 
   return (
-   <motion.button
-  whileHover={{ scale: 1.05 }}
-  transition={{ type: "spring", stiffness: 260, damping: 18 }}
+    <motion.button
+      whileHover={{ scale: 1.05 }}
+      transition={{ type: "spring", stiffness: 260, damping: 18 }}
       ref={ref}
       style={{
         x: sx,
@@ -600,7 +598,7 @@ function DashboardPanel({ inView }) {
   return (
     <motion.div
       initial={{ opacity: 0, x: 40, scale: 0.96 }}
-animate={inView ? { opacity: 1, x: 0, scale: 1 } : {}}
+      animate={inView ? { opacity: 1, x: 0, scale: 1 } : {}}
       transition={{ duration: 0.75, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
       style={{
         background: T.surface,
@@ -650,7 +648,7 @@ animate={inView ? { opacity: 1, x: 0, scale: 1 } : {}}
           <span
             style={{ fontSize: "10px", color: T.textMuted, fontFamily: T.font }}
           >
-            app.unitynet.io/dashboard
+            app.DigitalSevaks.io/dashboard
           </span>
         </div>
       </div>
@@ -962,270 +960,272 @@ export default function LiveImpactDashboard() {
           }}
         />
       </div>
-
       <motion.div
-  animate={{ x: [0, 20, 0], y: [0, -15, 0] }}
-  transition={{ duration: 18, repeat: Infinity }}
-  style={{
-    position: "absolute",
-    top: "30%",
-    left: "40%",
-    width: 300,
-    height: 300,
-    borderRadius: "50%",
-    background: "radial-gradient(circle, rgba(20,184,166,0.08), transparent 70%)",
-    filter: "blur(70px)",
-  }}
-/>
-
+        animate={{ x: [0, 20, 0], y: [0, -15, 0] }}
+        transition={{ duration: 18, repeat: Infinity }}
+        style={{
+          position: "absolute",
+          top: "30%",
+          left: "40%",
+          width: 300,
+          height: 300,
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle, rgba(20,184,166,0.08), transparent 70%)",
+          filter: "blur(70px)",
+        }}
+      />
       <motion.div style={{ perspective: 1200 }}>
-  <motion.div
-    initial={{ rotateX: 6, rotateY: -6 }}
-    animate={inView ? { rotateX: 0, rotateY: 0 } : {}}
-    transition={{ duration: 1 }}
-    style={{
-      position: "relative",
-      zIndex: 1,
-      maxWidth: "1200px",
-      margin: "0 auto",
-      display: "grid",
-      gridTemplateColumns:
-        "repeat(auto-fit, minmax(min(100%, 420px), 1fr))",
-      gap: "clamp(40px, 6vw, 80px)",
-      alignItems: "center",
-    }}
-  >
-        {/* ── Left column ── */}
-
         <motion.div
-  initial={{ opacity: 0, x: -40 }}
-  animate={inView ? { opacity: 1, x: 0 } : {}}
-  transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-  style={{
-    display: "flex",
-    flexDirection: "column",
-    gap: "clamp(20px, 3vw, 28px)",
-  }}
->
-          {/* Badge */}
+          initial={{ rotateX: 6, rotateY: -6 }}
+          animate={inView ? { rotateX: 0, rotateY: 0 } : {}}
+          transition={{ duration: 1 }}
+          style={{
+            position: "relative",
+            zIndex: 1,
+            maxWidth: "1200px",
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns:
+              "repeat(auto-fit, minmax(min(100%, 420px), 1fr))",
+            gap: "clamp(40px, 6vw, 80px)",
+            alignItems: "center",
+          }}
+        >
+          {/* ── Left column ── */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5 }}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              background: T.greenLight,
-              border: `1px solid ${T.greenMid}`,
-              borderRadius: "50px",
-              padding: "6px 14px",
-              width: "fit-content",
-            }}
-          >
-            <motion.div
-              animate={{ scale: [1, 1.35, 1], opacity: [1, 0.5, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              style={{
-                width: 7,
-                height: 7,
-                borderRadius: "50%",
-                background: T.green,
-                flexShrink: 0,
-              }}
-            />
-            <span
-              style={{
-                fontSize: "12px",
-                fontWeight: 600,
-                color: T.green,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-              }}
-            >
-              Live Dashboard
-            </span>
-          </motion.div>
-
-          {/* Heading */}
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            style={{
-              fontSize: "clamp(28px, 4.5vw, 48px)",
-              fontWeight: 800,
-              color: T.text,
-              lineHeight: 1.1,
-              letterSpacing: "-0.03em",
-              margin: 0,
-            }}
-          >
-            See Your Impact{" "}
-            <span
-              style={{
-                background: `linear-gradient(135deg, ${T.green}, ${T.blue})`,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              in Real Time
-            </span>
-          </motion.h2>
-
-          {/* Body */}
-          <motion.p
-            initial={{ opacity: 0, y: 18 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            style={{
-              fontSize: "clamp(15px, 1.6vw, 17px)",
-              fontWeight: 300,
-              color: T.textSub,
-              lineHeight: 1.75,
-              margin: 0,
-              maxWidth: "400px",
-            }}
-          >
-            Every volunteer matched, every campaign filled, every life touched —
-            measured and visible in a live dashboard built for NGOs and donors
-            who demand accountability.
-          </motion.p>
-
-          {/* Feature bullets */}
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.55, delay: 0.3 }}
-            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-          >
-            {[
-              {
-                icon: "📊",
-                text: "Real-time metrics — updated every 30 seconds",
-              },
-              { icon: "🤖", text: "AI-generated weekly impact summaries" },
-              {
-                icon: "🔗",
-                text: "Shareable reports for donors and stakeholders",
-              },
-            ].map((item, i) => (
-              <div
-                key={i}
-                style={{ display: "flex", alignItems: "center", gap: "10px" }}
-              >
-                <div
-                  style={{
-                    width: 32,
-                    height: 32,
-                    borderRadius: "8px",
-                    background: T.greenLight,
-                    border: `1px solid ${T.greenMid}`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "15px",
-                    flexShrink: 0,
-                  }}
-                >
-                  {item.icon}
-                </div>
-                <span
-                  style={{
-                    fontSize: "14px",
-                    color: T.textSub,
-                    fontWeight: 400,
-                  }}
-                >
-                  {item.text}
-                </span>
-              </div>
-            ))}
-          </motion.div>
-
-          {/* CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 0.42 }}
-            whileHover={{ scale: 1.05 }}
+            initial={{ opacity: 0, x: -40 }}
+            animate={inView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             style={{
               display: "flex",
-              alignItems: "center",
-              gap: "16px",
-              flexWrap: "wrap",
-              paddingTop: "4px",
+              flexDirection: "column",
+              gap: "clamp(20px, 3vw, 28px)",
             }}
           >
-           <CTAButton>View Live Demo</CTAButton>
-            <span
-              style={{ fontSize: "13px", color: T.textMuted, fontWeight: 400 }}
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5 }}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                background: T.greenLight,
+                border: `1px solid ${T.greenMid}`,
+                borderRadius: "50px",
+                padding: "6px 14px",
+                width: "fit-content",
+              }}
             >
-              No signup · Instant access
-            </span>
-          </motion.div>
+              <motion.div
+                animate={{ scale: [1, 1.35, 1], opacity: [1, 0.5, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                style={{
+                  width: 7,
+                  height: 7,
+                  borderRadius: "50%",
+                  background: T.green,
+                  flexShrink: 0,
+                }}
+              />
+              <span
+                style={{
+                  fontSize: "12px",
+                  fontWeight: 600,
+                  color: T.green,
+                  letterSpacing: "0.06em",
+                  textTransform: "uppercase",
+                }}
+              >
+                Live Dashboard
+              </span>
+            </motion.div>
 
-          {/* Social proof strip */}
-<motion.div
-  initial={{ opacity: 0 }}
-  animate={inView ? { opacity: 1 } : {}}
-  transition={{ duration: 0.5, delay: 0.6 }}
-  style={{
-    display: "flex",
-    alignItems: "center",
-    gap: "12px",
-    padding: "12px 16px",
-    background: T.surface,
-    borderRadius: T.radiusSm,
-    border: `1px solid ${T.border}`,
-    width: "fit-content",
-  }}
->
-  <div style={{ display: "flex" }}>
-    {["#fb923c", "#a78bfa", "#34d399", "#60a5fa"].map((c, i) => (
-      <div
-        key={c}
-        style={{
-          width: 28,
-          height: 28,
-          borderRadius: "50%",
-          background: c,
-          border: "2px solid white",
-          marginLeft: i > 0 ? "-8px" : 0,
-          zIndex: 4 - i,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: "12px",
-        }}
-      >
-        {["🧑", "👩", "🧑", "👨"][i]}
-      </div>
-    ))}
-  </div>
+            {/* Heading */}
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              style={{
+                fontSize: "clamp(28px, 4.5vw, 48px)",
+                fontWeight: 800,
+                color: T.text,
+                lineHeight: 1.1,
+                letterSpacing: "-0.03em",
+                margin: 0,
+              }}
+            >
+              See Your Impact{" "}
+              <span
+                style={{
+                  background: `linear-gradient(135deg, ${T.green}, ${T.blue})`,
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                in Real Time
+              </span>
+            </motion.h2>
 
-  <div>
-    <div style={{ fontSize: "12px", fontWeight: 700, color: T.text }}>
-      2,900+ NGOs
-    </div>
-    <div style={{ fontSize: "11px", color: T.textMuted }}>
-      tracking impact live
-    </div>
-  </div>
-</motion.div>
+            {/* Body */}
+            <motion.p
+              initial={{ opacity: 0, y: 18 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              style={{
+                fontSize: "clamp(15px, 1.6vw, 17px)",
+                fontWeight: 300,
+                color: T.textSub,
+                lineHeight: 1.75,
+                margin: 0,
+                maxWidth: "400px",
+              }}
+            >
+              Every volunteer matched, every campaign filled, every life touched
+              — measured and visible in a live dashboard built for NGOs and
+              donors who demand accountability.
+            </motion.p>
 
-</motion.div> {/* ✅ LEFT COLUMN END */}
+            {/* Feature bullets */}
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.55, delay: 0.3 }}
+              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+            >
+              {[
+                {
+                  icon: "📊",
+                  text: "Real-time metrics — updated every 30 seconds",
+                },
+                { icon: "🤖", text: "AI-generated weekly impact summaries" },
+                {
+                  icon: "🔗",
+                  text: "Shareable reports for donors and stakeholders",
+                },
+              ].map((item, i) => (
+                <div
+                  key={i}
+                  style={{ display: "flex", alignItems: "center", gap: "10px" }}
+                >
+                  <div
+                    style={{
+                      width: 32,
+                      height: 32,
+                      borderRadius: "8px",
+                      background: T.greenLight,
+                      border: `1px solid ${T.greenMid}`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "15px",
+                      flexShrink: 0,
+                    }}
+                  >
+                    {item.icon}
+                  </div>
+                  <span
+                    style={{
+                      fontSize: "14px",
+                      color: T.textSub,
+                      fontWeight: 400,
+                    }}
+                  >
+                    {item.text}
+                  </span>
+                </div>
+              ))}
+            </motion.div>
 
+            {/* CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.42 }}
+              whileHover={{ scale: 1.05 }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "16px",
+                flexWrap: "wrap",
+                paddingTop: "4px",
+              }}
+            >
+              {/* <CTAButton>View Live Demo</CTAButton> */}
+              <span
+                style={{
+                  fontSize: "13px",
+                  color: T.textMuted,
+                  fontWeight: 400,
+                }}
+              >
+                No signup · Instant access
+              </span>
+            </motion.div>
 
-{/* ── RIGHT COLUMN (MISSING PART) ── */}
-<div style={{ position: "relative", zIndex: 2 }}>
-  <DashboardPanel inView={inView} />
-</div>
+            {/* Social proof strip */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={inView ? { opacity: 1 } : {}}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                padding: "12px 16px",
+                background: T.surface,
+                borderRadius: T.radiusSm,
+                border: `1px solid ${T.border}`,
+                width: "fit-content",
+              }}
+            >
+              <div style={{ display: "flex" }}>
+                {["#fb923c", "#a78bfa", "#34d399", "#60a5fa"].map((c, i) => (
+                  <div
+                    key={c}
+                    style={{
+                      width: 28,
+                      height: 28,
+                      borderRadius: "50%",
+                      background: c,
+                      border: "2px solid white",
+                      marginLeft: i > 0 ? "-8px" : 0,
+                      zIndex: 4 - i,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "12px",
+                    }}
+                  >
+                    {["🧑", "👩", "🧑", "👨"][i]}
+                  </div>
+                ))}
+              </div>
 
-</motion.div> {/* ✅ GRID END */}
-</motion.div> {/* ✅ PERSPECTIVE END */}
-
-</section>
+              <div>
+                <div
+                  style={{ fontSize: "12px", fontWeight: 700, color: T.text }}
+                >
+                  2,900+ NGOs
+                </div>
+                <div style={{ fontSize: "11px", color: T.textMuted }}>
+                  tracking impact live
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>{" "}
+          {/* ✅ LEFT COLUMN END */}
+          {/* ── RIGHT COLUMN (MISSING PART) ── */}
+          <div style={{ position: "relative", zIndex: 2 }}>
+            <DashboardPanel inView={inView} />
+          </div>
+        </motion.div>{" "}
+        {/* ✅ GRID END */}
+      </motion.div>{" "}
+      {/* ✅ PERSPECTIVE END */}
+    </section>
   );
 }

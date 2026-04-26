@@ -364,7 +364,7 @@ export default function WhyDigitalSevaks() {
 
             {/* CTAs */}
             <motion.div variants={itemVariants} style={{ display: "flex", gap: 14, alignItems: "center", marginBottom: 32 }}>
-              <motion.button
+              {/* <motion.button
                 whileHover={{ y: -3, scale: 1.04, boxShadow: "0 12px 32px rgba(34,197,94,0.45)" }}
                 whileTap={{ scale: 0.97 }}
                 style={{
@@ -377,8 +377,8 @@ export default function WhyDigitalSevaks() {
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 8 16 12 12 16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
                 Start Your Journey
-              </motion.button>
-              <motion.button
+              </motion.button> */}
+              {/* <motion.button
                 whileHover={{ background: "rgba(34,197,94,0.12)", borderColor: T.green }}
                 style={{
                   padding: "14px 24px", borderRadius: 14,
@@ -389,7 +389,7 @@ export default function WhyDigitalSevaks() {
                 }}
               >
                 Learn More
-              </motion.button>
+              </motion.button> */}
             </motion.div>
 
             {/* Trust avatars */}

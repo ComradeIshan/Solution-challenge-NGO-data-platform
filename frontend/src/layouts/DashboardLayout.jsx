@@ -1,17 +1,17 @@
-import Sidebar from "../components/dashboard/Sidebar";
-import Topbar from "../components/dashboard/Topbar";
+import { Outlet } from "react-router-dom";
+import Navbar from "../components/Navbar";
 import React from "react";
 
-export default function DashboardLayout({ children }) {
+export default function DashboardLayout() {
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <Sidebar />
+    <>
+      {/* ✅ Navbar always visible */}
+      <Navbar type="app" />
 
-      <div className="flex-1 flex flex-col">
-        <Topbar />
-
-        <main className="p-6">{children}</main>
+      {/* ✅ Push content below navbar */}
+      <div style={{ paddingTop: "90px" }}>
+        <Outlet />
       </div>
-    </div>
+    </>
   );
 }

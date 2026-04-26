@@ -46,3 +46,9 @@ body {
 
   color: #0f172a;
 }
+
+body {
+  background:
+    radial-gradient(circle at 70% 40%, rgba(59,130,246,0.12), transparent 60%),
+    linear-gradient(135deg, #e6f4ea 0%, #eaf6ff 50%, #f0f9ff 100%);
+}

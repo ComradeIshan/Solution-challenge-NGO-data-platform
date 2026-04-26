@@ -18,11 +18,11 @@ import {
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBbMgP7hu95oGDWAGWJQdtSxNTc7Cd-73M",
-  authDomain: "unitynet-f1f07.firebaseapp.com",
-  projectId: "unitynet-f1f07",
-  storageBucket: "unitynet-f1f07.firebasestorage.app",
+  authDomain: "DigitalSevaks-f1f07.firebaseapp.com",
+  projectId: "DigitalSevaks-f1f07",
+  storageBucket: "DigitalSevaks-f1f07.firebasestorage.app",
   messagingSenderId: "988131684755",
-  appId: "1:988131684755:web:b5542eec46b83c5f7bb866"
+  appId: "1:988131684755:web:b5542eec46b83c5f7bb866",
 };
 
 // Initialize Firebase
