@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import {
   auth,
   db,
@@ -868,12 +870,29 @@ const slideVariants = {
 
 // ─── SIGN IN FORM ─────────────────────────────────────────────────────────────
 const SignInForm = ({ onSwitch }) => {
+  
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [done, setDone] = useState(false);
+
+  const navigate = useNavigate();
+// const { userProfile } = useAuth();
+
+// Add this useEffect to redirect when profile loads
+const { userProfile, currentUser } = useAuth();
+
+useEffect(() => {
+  if (!currentUser || !userProfile) return;
+
+  if (userProfile.role === "ngo") {
+    navigate("/ngo-profile");
+  } else {
+    navigate("/volunteer-profile");
+  }
+}, [currentUser, userProfile]);
 
   const validate = () => {
     const e = {};
