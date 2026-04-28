@@ -1869,10 +1869,22 @@ nanoid@^3.3.11:
   resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.3.11.tgz"
   integrity sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==
 
+node-bin-setup@^1.0.0:
+  version "1.1.4"
+  resolved "https://registry.npmjs.org/node-bin-setup/-/node-bin-setup-1.1.4.tgz"
+  integrity sha512-vWNHOne0ZUavArqPP5LJta50+S8R261Fr5SvGul37HbEDcowvLjwdvd0ZeSr0r2lTSrPxl6okq9QUw8BFGiAxA==
+
 node-releases@^2.0.36:
   version "2.0.37"
   resolved "https://registry.npmjs.org/node-releases/-/node-releases-2.0.37.tgz"
   integrity sha512-1h5gKZCF+pO/o3Iqt5Jp7wc9rH3eJJ0+nh/CIoiRwjRxde/hAHyLPXYN4V3CqKAbiZPSeJFSWHmJsbkicta0Eg==
+
+node@^24.15.0:
+  version "24.15.0"
+  resolved "https://registry.npmjs.org/node/-/node-24.15.0.tgz"
+  integrity sha512-hQ1r8QpNk4lovkBOFSBWqnUcZS4CT5kOx1L35AWcERMK8oDHWYUszsGtFKML+vIIz01pNq7XMoJjeZmRIJc6og==
+  dependencies:
+    node-bin-setup "^1.0.0"
 
 normalize-path@^3.0.0, normalize-path@~3.0.0:
   version "3.0.0"

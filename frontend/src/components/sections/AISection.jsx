@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useInView, useAnimation } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 /* ═══════════════════════════════════════════════════════════════════════════
    DESIGN TOKENS
@@ -441,6 +442,7 @@ function FloatingLabel({ text, delay, active }) {
 export default function AISection() {
   const sectionRef = useRef(null);
   const inView = useInView(sectionRef, { once: true, margin: "-80px" });
+  const navigate = useNavigate();
 
   /* orchestrated sequence */
   const [phase, setPhase] = useState(0);
@@ -701,18 +703,18 @@ export default function AISection() {
           transition={{ duration: 0.45, delay: 0.35, ease: T.ease }}
         >
           <motion.a
-            href="#demo"
-            style={S.ctaPrimary}
-            whileHover={{ y: -2, boxShadow: "0 8px 24px rgba(34,197,94,0.36)" }}
-            whileTap={{ scale: 0.97, y: 0 }}
-            transition={{ type: "spring", stiffness: 360, damping: 22 }}
-          >
-            See AI in action
-            <motion.span
-              animate={{ x: [0, 3, 0] }}
-              transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
-            >→</motion.span>
-          </motion.a>
+  onClick={() => navigate("/auth")}
+  style={S.ctaPrimary}
+  whileHover={{ y: -2, boxShadow: "0 8px 24px rgba(34,197,94,0.36)" }}
+  whileTap={{ scale: 0.97, y: 0 }}
+  transition={{ type: "spring", stiffness: 360, damping: 22 }}
+>
+  See AI in action
+  <motion.span
+    animate={{ x: [0, 3, 0] }}
+    transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
+  >→</motion.span>
+</motion.a>
 
           {/* <motion.a
             href="#how"
