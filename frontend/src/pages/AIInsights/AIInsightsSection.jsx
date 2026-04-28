@@ -26,9 +26,21 @@ const LOADING_MESSAGES = [
 ];
 
 const SEVERITY_COLORS = {
-  Low: { bg: "rgba(34,197,94,0.15)", border: "rgba(34,197,94,0.4)", text: "#4ade80" },
-  Medium: { bg: "rgba(251,191,36,0.15)", border: "rgba(251,191,36,0.4)", text: "#fbbf24" },
-  High: { bg: "rgba(239,68,68,0.15)", border: "rgba(239,68,68,0.4)", text: "#f87171" },
+  Low: {
+    bg: "rgba(34,197,94,0.15)",
+    border: "rgba(34,197,94,0.4)",
+    text: "#4ade80",
+  },
+  Medium: {
+    bg: "rgba(251,191,36,0.15)",
+    border: "rgba(251,191,36,0.4)",
+    text: "#fbbf24",
+  },
+  High: {
+    bg: "rgba(239,68,68,0.15)",
+    border: "rgba(239,68,68,0.4)",
+    text: "#f87171",
+  },
 };
 
 // ─── Design Tokens ────────────────────────────────────────────────────────────
@@ -94,9 +106,19 @@ const SeverityBadge = ({ level }) => {
 };
 
 const SectionHeading = ({ icon, title, count }) => (
-  <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
+  <div
+    style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}
+  >
     <span style={{ fontSize: 20 }}>{icon}</span>
-    <h3 style={{ margin: 0, fontSize: 17, fontWeight: 700, color: T.text, letterSpacing: "-0.01em" }}>
+    <h3
+      style={{
+        margin: 0,
+        fontSize: 17,
+        fontWeight: 700,
+        color: T.text,
+        letterSpacing: "-0.01em",
+      }}
+    >
       {title}
     </h3>
     {count != null && (
@@ -232,7 +254,10 @@ const LoadingPanel = () => {
         {LOADING_MESSAGES.map((_, i) => (
           <motion.div
             key={i}
-            animate={{ opacity: i <= msgIdx ? 1 : 0.25, scale: i === msgIdx ? 1.3 : 1 }}
+            animate={{
+              opacity: i <= msgIdx ? 1 : 0.25,
+              scale: i === msgIdx ? 1.3 : 1,
+            }}
             transition={{ duration: 0.3 }}
             style={{
               width: 6,
@@ -250,29 +275,110 @@ const LoadingPanel = () => {
 // ─── Section: NGO Summary ──────────────────────────────────────────────────────
 
 const NgoSummarySection = ({ data }) => (
-  <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}>
+  <motion.div
+    initial={{ opacity: 0, y: 16 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.05 }}
+  >
     <SectionHeading icon="🏛️" title="NGO Summary" />
     <GlassCard>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
         <div>
-          <p style={{ margin: "0 0 4px", fontSize: 11, color: T.textDim, textTransform: "uppercase", letterSpacing: "0.08em" }}>Name</p>
-          <p style={{ margin: 0, fontSize: 16, fontWeight: 700, color: T.text }}>{data.name}</p>
+          <p
+            style={{
+              margin: "0 0 4px",
+              fontSize: 11,
+              color: T.textDim,
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+            }}
+          >
+            Name
+          </p>
+          <p
+            style={{ margin: 0, fontSize: 16, fontWeight: 700, color: T.text }}
+          >
+            {data.name}
+          </p>
         </div>
         <div>
-          <p style={{ margin: "0 0 4px", fontSize: 11, color: T.textDim, textTransform: "uppercase", letterSpacing: "0.08em" }}>Location</p>
-          <p style={{ margin: 0, fontSize: 14, color: T.textMuted }}>{data.location}</p>
+          <p
+            style={{
+              margin: "0 0 4px",
+              fontSize: 11,
+              color: T.textDim,
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+            }}
+          >
+            Location
+          </p>
+          <p style={{ margin: 0, fontSize: 14, color: T.textMuted }}>
+            {data.location}
+          </p>
         </div>
         <div style={{ gridColumn: "1 / -1" }}>
-          <p style={{ margin: "0 0 4px", fontSize: 11, color: T.textDim, textTransform: "uppercase", letterSpacing: "0.08em" }}>Mission</p>
-          <p style={{ margin: 0, fontSize: 14, color: T.textMuted, lineHeight: 1.6 }}>{data.mission}</p>
+          <p
+            style={{
+              margin: "0 0 4px",
+              fontSize: 11,
+              color: T.textDim,
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+            }}
+          >
+            Mission
+          </p>
+          <p
+            style={{
+              margin: 0,
+              fontSize: 14,
+              color: T.textMuted,
+              lineHeight: 1.6,
+            }}
+          >
+            {data.mission}
+          </p>
         </div>
         <div>
-          <p style={{ margin: "0 0 8px", fontSize: 11, color: T.textDim, textTransform: "uppercase", letterSpacing: "0.08em" }}>Target Groups</p>
-          <div>{data.targetGroups.map((g, i) => <Chip key={i} color={T.teal}>{g}</Chip>)}</div>
+          <p
+            style={{
+              margin: "0 0 8px",
+              fontSize: 11,
+              color: T.textDim,
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+            }}
+          >
+            Target Groups
+          </p>
+          <div>
+            {data.targetGroups.map((g, i) => (
+              <Chip key={i} color={T.teal}>
+                {g}
+              </Chip>
+            ))}
+          </div>
         </div>
         <div>
-          <p style={{ margin: "0 0 8px", fontSize: 11, color: T.textDim, textTransform: "uppercase", letterSpacing: "0.08em" }}>Focus Areas</p>
-          <div>{data.focusAreas.map((a, i) => <Chip key={i} color={T.accent}>{a}</Chip>)}</div>
+          <p
+            style={{
+              margin: "0 0 8px",
+              fontSize: 11,
+              color: T.textDim,
+              textTransform: "uppercase",
+              letterSpacing: "0.08em",
+            }}
+          >
+            Focus Areas
+          </p>
+          <div>
+            {data.focusAreas.map((a, i) => (
+              <Chip key={i} color={T.accent}>
+                {a}
+              </Chip>
+            ))}
+          </div>
         </div>
       </div>
     </GlassCard>
@@ -282,19 +388,86 @@ const NgoSummarySection = ({ data }) => (
 // ─── Section: Problem Areas ────────────────────────────────────────────────────
 
 const ProblemAreasSection = ({ data }) => (
-  <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-    <SectionHeading icon="⚠️" title="Problem Areas Detected" count={data.length} />
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 14 }}>
+  <motion.div
+    initial={{ opacity: 0, y: 16 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.1 }}
+  >
+    <SectionHeading
+      icon="⚠️"
+      title="Problem Areas Detected"
+      count={data.length}
+    />
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+        gap: 14,
+      }}
+    >
       {data.map((item, i) => (
         <GlassCard key={i}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
-            <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: T.text, flex: 1, paddingRight: 8 }}>{item.title}</p>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              marginBottom: 10,
+            }}
+          >
+            <p
+              style={{
+                margin: 0,
+                fontSize: 14,
+                fontWeight: 700,
+                color: T.text,
+                flex: 1,
+                paddingRight: 8,
+              }}
+            >
+              {item.title}
+            </p>
             <SeverityBadge level={item.severity} />
           </div>
-          <p style={{ margin: "0 0 10px", fontSize: 13, color: T.textMuted, lineHeight: 1.6 }}>{item.description}</p>
-          <div style={{ padding: "8px 12px", borderRadius: 10, background: "rgba(255,255,255,0.03)", border: `1px solid ${T.glassBorder}` }}>
-            <p style={{ margin: "0 0 2px", fontSize: 10, color: T.textDim, textTransform: "uppercase", letterSpacing: "0.07em" }}>Evidence</p>
-            <p style={{ margin: 0, fontSize: 12, color: T.textMuted, fontStyle: "italic" }}>{item.evidenceFromWebsite}</p>
+          <p
+            style={{
+              margin: "0 0 10px",
+              fontSize: 13,
+              color: T.textMuted,
+              lineHeight: 1.6,
+            }}
+          >
+            {item.description}
+          </p>
+          <div
+            style={{
+              padding: "8px 12px",
+              borderRadius: 10,
+              background: "rgba(255,255,255,0.03)",
+              border: `1px solid ${T.glassBorder}`,
+            }}
+          >
+            <p
+              style={{
+                margin: "0 0 2px",
+                fontSize: 10,
+                color: T.textDim,
+                textTransform: "uppercase",
+                letterSpacing: "0.07em",
+              }}
+            >
+              Evidence
+            </p>
+            <p
+              style={{
+                margin: 0,
+                fontSize: 12,
+                color: T.textMuted,
+                fontStyle: "italic",
+              }}
+            >
+              {item.evidenceFromWebsite}
+            </p>
           </div>
         </GlassCard>
       ))}
@@ -305,16 +478,51 @@ const ProblemAreasSection = ({ data }) => (
 // ─── Section: Volunteer Needs ──────────────────────────────────────────────────
 
 const VolunteerNeedsSection = ({ data }) => (
-  <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
+  <motion.div
+    initial={{ opacity: 0, y: 16 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.15 }}
+  >
     <SectionHeading icon="🤝" title="Volunteer Needs" count={data.length} />
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 14 }}>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+        gap: 14,
+      }}
+    >
       {data.map((item, i) => (
         <GlassCard key={i}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-            <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: T.text }}>{item.role}</p>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 10,
+            }}
+          >
+            <p
+              style={{
+                margin: 0,
+                fontSize: 14,
+                fontWeight: 700,
+                color: T.text,
+              }}
+            >
+              {item.role}
+            </p>
             <SeverityBadge level={item.priority} />
           </div>
-          <p style={{ margin: 0, fontSize: 13, color: T.textMuted, lineHeight: 1.6 }}>{item.reason}</p>
+          <p
+            style={{
+              margin: 0,
+              fontSize: 13,
+              color: T.textMuted,
+              lineHeight: 1.6,
+            }}
+          >
+            {item.reason}
+          </p>
         </GlassCard>
       ))}
     </div>
@@ -324,16 +532,53 @@ const VolunteerNeedsSection = ({ data }) => (
 // ─── Section: Impact Insights ──────────────────────────────────────────────────
 
 const ImpactInsightsSection = ({ data }) => (
-  <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+  <motion.div
+    initial={{ opacity: 0, y: 16 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.2 }}
+  >
     <SectionHeading icon="📈" title="Impact Insights" count={data.length} />
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 14 }}>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+        gap: 14,
+      }}
+    >
       {data.map((item, i) => (
         <GlassCard key={i} style={{ borderLeft: `3px solid ${T.teal}` }}>
-          <p style={{ margin: "0 0 8px", fontSize: 14, fontWeight: 700, color: T.text }}>{item.title}</p>
-          <p style={{ margin: "0 0 12px", fontSize: 13, color: T.textMuted, lineHeight: 1.6 }}>{item.insight}</p>
+          <p
+            style={{
+              margin: "0 0 8px",
+              fontSize: 14,
+              fontWeight: 700,
+              color: T.text,
+            }}
+          >
+            {item.title}
+          </p>
+          <p
+            style={{
+              margin: "0 0 12px",
+              fontSize: 13,
+              color: T.textMuted,
+              lineHeight: 1.6,
+            }}
+          >
+            {item.insight}
+          </p>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <span style={{ fontSize: 12, color: T.teal }}>📊</span>
-            <p style={{ margin: 0, fontSize: 12, color: T.teal, fontWeight: 500 }}>{item.metricOrEvidence}</p>
+            <p
+              style={{
+                margin: 0,
+                fontSize: 12,
+                color: T.teal,
+                fontWeight: 500,
+              }}
+            >
+              {item.metricOrEvidence}
+            </p>
           </div>
         </GlassCard>
       ))}
@@ -343,17 +588,69 @@ const ImpactInsightsSection = ({ data }) => (
 
 // ─── Section: AI-Powered Digital Suggestions ────────────────────────────────────────────
 
-const UnityNetSuggestionsSection = ({ data }) => (
-  <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}>
-    <SectionHeading icon="💡" title="AI-Powered Digital Suggestions" count={data.length} />
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: 14 }}>
+const DigitalSevaksSuggestionsSection = ({ data }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 16 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.25 }}
+  >
+    <SectionHeading
+      icon="💡"
+      title="AI-Powered Digital Suggestions"
+      count={data.length}
+    />
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+        gap: 14,
+      }}
+    >
       {data.map((item, i) => (
         <GlassCard key={i} style={{ borderLeft: `3px solid ${T.accent}` }}>
-          <p style={{ margin: "0 0 8px", fontSize: 14, fontWeight: 700, color: T.text }}>{item.title}</p>
-          <p style={{ margin: "0 0 12px", fontSize: 13, color: T.textMuted, lineHeight: 1.6 }}>{item.suggestion}</p>
-          <div style={{ padding: "8px 12px", borderRadius: 10, background: T.accentSoft, border: `1px solid ${T.accentGlow}` }}>
-            <p style={{ margin: "0 0 2px", fontSize: 10, color: T.accent, textTransform: "uppercase", letterSpacing: "0.07em", fontWeight: 700 }}>Expected Benefit</p>
-            <p style={{ margin: 0, fontSize: 12, color: T.textMuted }}>{item.expectedBenefit}</p>
+          <p
+            style={{
+              margin: "0 0 8px",
+              fontSize: 14,
+              fontWeight: 700,
+              color: T.text,
+            }}
+          >
+            {item.title}
+          </p>
+          <p
+            style={{
+              margin: "0 0 12px",
+              fontSize: 13,
+              color: T.textMuted,
+              lineHeight: 1.6,
+            }}
+          >
+            {item.suggestion}
+          </p>
+          <div
+            style={{
+              padding: "8px 12px",
+              borderRadius: 10,
+              background: T.accentSoft,
+              border: `1px solid ${T.accentGlow}`,
+            }}
+          >
+            <p
+              style={{
+                margin: "0 0 2px",
+                fontSize: 10,
+                color: T.accent,
+                textTransform: "uppercase",
+                letterSpacing: "0.07em",
+                fontWeight: 700,
+              }}
+            >
+              Expected Benefit
+            </p>
+            <p style={{ margin: 0, fontSize: 12, color: T.textMuted }}>
+              {item.expectedBenefit}
+            </p>
           </div>
         </GlassCard>
       ))}
@@ -364,30 +661,88 @@ const UnityNetSuggestionsSection = ({ data }) => (
 // ─── Section: AI Score Cards ───────────────────────────────────────────────────
 
 const AiScoreCardsSection = ({ data }) => (
-  <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+  <motion.div
+    initial={{ opacity: 0, y: 16 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.3 }}
+  >
     <SectionHeading icon="🎯" title="AI Score Cards" />
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 14 }}>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+        gap: 14,
+      }}
+    >
       {data.map((item, i) => {
         const pct = Math.min(100, Math.max(0, item.score));
         const color = pct >= 70 ? "#4ade80" : pct >= 45 ? "#fbbf24" : "#f87171";
         return (
           <GlassCard key={i}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
-              <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: T.text }}>{item.label}</p>
-              <span style={{ fontSize: 20, fontWeight: 800, color, fontVariantNumeric: "tabular-nums" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: 10,
+              }}
+            >
+              <p
+                style={{
+                  margin: 0,
+                  fontSize: 13,
+                  fontWeight: 700,
+                  color: T.text,
+                }}
+              >
+                {item.label}
+              </p>
+              <span
+                style={{
+                  fontSize: 20,
+                  fontWeight: 800,
+                  color,
+                  fontVariantNumeric: "tabular-nums",
+                }}
+              >
                 {pct}
               </span>
             </div>
             {/* Progress bar */}
-            <div style={{ height: 5, borderRadius: 3, background: "rgba(255,255,255,0.08)", marginBottom: 10, overflow: "hidden" }}>
+            <div
+              style={{
+                height: 5,
+                borderRadius: 3,
+                background: "rgba(255,255,255,0.08)",
+                marginBottom: 10,
+                overflow: "hidden",
+              }}
+            >
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${pct}%` }}
-                transition={{ delay: 0.4 + i * 0.05, duration: 0.8, ease: "easeOut" }}
-                style={{ height: "100%", borderRadius: 3, background: `linear-gradient(90deg, ${color}88, ${color})` }}
+                transition={{
+                  delay: 0.4 + i * 0.05,
+                  duration: 0.8,
+                  ease: "easeOut",
+                }}
+                style={{
+                  height: "100%",
+                  borderRadius: 3,
+                  background: `linear-gradient(90deg, ${color}88, ${color})`,
+                }}
               />
             </div>
-            <p style={{ margin: 0, fontSize: 12, color: T.textMuted, lineHeight: 1.5 }}>{item.reason}</p>
+            <p
+              style={{
+                margin: 0,
+                fontSize: 12,
+                color: T.textMuted,
+                lineHeight: 1.5,
+              }}
+            >
+              {item.reason}
+            </p>
           </GlassCard>
         );
       })}
@@ -410,8 +765,26 @@ const ErrorCard = ({ message, onRetry }) => (
     }}
   >
     <div style={{ fontSize: 36, marginBottom: 14 }}>⚠️</div>
-    <p style={{ margin: "0 0 8px", fontSize: 16, fontWeight: 700, color: "#fca5a5" }}>Analysis Failed</p>
-    <p style={{ margin: "0 0 20px", fontSize: 14, color: "#94a3b8", lineHeight: 1.6 }}>{message}</p>
+    <p
+      style={{
+        margin: "0 0 8px",
+        fontSize: 16,
+        fontWeight: 700,
+        color: "#fca5a5",
+      }}
+    >
+      Analysis Failed
+    </p>
+    <p
+      style={{
+        margin: "0 0 20px",
+        fontSize: 14,
+        color: "#94a3b8",
+        lineHeight: 1.6,
+      }}
+    >
+      {message}
+    </p>
     <button
       onClick={onRetry}
       style={{
@@ -430,7 +803,6 @@ const ErrorCard = ({ message, onRetry }) => (
   </motion.div>
 );
 
-
 // ─── Original AI Insights Dashboard Fallback ─────────────────────────────────
 const OLD_INSIGHT_CARDS = [
   {
@@ -448,8 +820,16 @@ const OLD_INSIGHT_CARDS = [
     tagColor: "#16a34a",
     tags: ["Q3 2024", "Delhi +45%", "High confidence"],
     sparkData: [
-      { v: 22 }, { v: 28 }, { v: 25 }, { v: 34 }, { v: 30 },
-      { v: 38 }, { v: 35 }, { v: 42 }, { v: 40 }, { v: 48 },
+      { v: 22 },
+      { v: 28 },
+      { v: 25 },
+      { v: 34 },
+      { v: 30 },
+      { v: 38 },
+      { v: 35 },
+      { v: 42 },
+      { v: 40 },
+      { v: 48 },
     ],
   },
   {
@@ -467,8 +847,16 @@ const OLD_INSIGHT_CARDS = [
     tagColor: "#2563eb",
     tags: ["Education ↑", "Healthcare ↑", "Rural"],
     sparkData: [
-      { v: 60 }, { v: 72 }, { v: 68 }, { v: 84 }, { v: 90 },
-      { v: 88 }, { v: 98 }, { v: 106 }, { v: 112 }, { v: 127 },
+      { v: 60 },
+      { v: 72 },
+      { v: 68 },
+      { v: 84 },
+      { v: 90 },
+      { v: 88 },
+      { v: 98 },
+      { v: 106 },
+      { v: 112 },
+      { v: 127 },
     ],
   },
   {
@@ -486,8 +874,16 @@ const OLD_INSIGHT_CARDS = [
     tagColor: "#d97706",
     tags: ["Trending up", "All regions", "Accelerating"],
     sparkData: [
-      { v: 2.1 }, { v: 2.4 }, { v: 2.9 }, { v: 3.2 }, { v: 3.6 },
-      { v: 3.9 }, { v: 4.1 }, { v: 4.4 }, { v: 4.6 }, { v: 4.8 },
+      { v: 2.1 },
+      { v: 2.4 },
+      { v: 2.9 },
+      { v: 3.2 },
+      { v: 3.6 },
+      { v: 3.9 },
+      { v: 4.1 },
+      { v: 4.4 },
+      { v: 4.6 },
+      { v: 4.8 },
     ],
   },
 ];
@@ -498,80 +894,138 @@ function StaticInsightsDashboard() {
 
   return (
     <section ref={ref} style={{ marginBottom: 40 }}>
-
       {/* Section Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ type: "spring", stiffness: 220, damping: 22 }}
-        style={{ marginBottom: 28, display: "flex", alignItems: "flex-end", justifyContent: "space-between" }}
+        style={{
+          marginBottom: 28,
+          display: "flex",
+          alignItems: "flex-end",
+          justifyContent: "space-between",
+        }}
       >
         <div>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              marginBottom: 6,
+            }}
+          >
             {/* Animated AI badge */}
             <motion.div
               animate={{ scale: [1, 1.1, 1], rotate: [0, 5, -5, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
               style={{
-                width: 36, height: 36, borderRadius: 10,
+                width: 36,
+                height: 36,
+                borderRadius: 10,
                 background: "linear-gradient(135deg, #22c55e, #14b8a6)",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: 18, boxShadow: "0 4px 16px rgba(34,197,94,0.35)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 18,
+                boxShadow: "0 4px 16px rgba(34,197,94,0.35)",
               }}
             >
               🧠
             </motion.div>
             <div>
-              <p style={{
-                fontSize: 10, fontWeight: 700, letterSpacing: "0.14em",
-                textTransform: "uppercase", color: "#94a3b8",
-                fontFamily: "'DM Sans', system-ui", margin: 0,
-              }}>
+              <p
+                style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  letterSpacing: "0.14em",
+                  textTransform: "uppercase",
+                  color: "#94a3b8",
+                  fontFamily: "'DM Sans', system-ui",
+                  margin: 0,
+                }}
+              >
                 Powered by Sevaks AI
               </p>
             </div>
             {/* Live badge */}
-            <div style={{
-              display: "flex", alignItems: "center", gap: 5,
-              background: "rgba(34,197,94,0.08)",
-              border: "1px solid rgba(34,197,94,0.2)",
-              borderRadius: 20, padding: "3px 10px",
-            }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 5,
+                background: "rgba(34,197,94,0.08)",
+                border: "1px solid rgba(34,197,94,0.2)",
+                borderRadius: 20,
+                padding: "3px 10px",
+              }}
+            >
               <motion.div
                 animate={{ opacity: [1, 0.3, 1] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
-                style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e" }}
+                style={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: "50%",
+                  background: "#22c55e",
+                }}
               />
-              <span style={{ fontSize: 10, fontWeight: 700, color: "#16a34a", fontFamily: "'DM Sans', system-ui" }}>
+              <span
+                style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: "#16a34a",
+                  fontFamily: "'DM Sans', system-ui",
+                }}
+              >
                 Real-time
               </span>
             </div>
           </div>
-          <h2 style={{
-            fontSize: 32, fontWeight: 900, color: "#0f172a",
-            margin: 0, letterSpacing: "-0.03em",
-            fontFamily: "'DM Sans', system-ui",
-          }}>
+          <h2
+            style={{
+              fontSize: 32,
+              fontWeight: 900,
+              color: "#0f172a",
+              margin: 0,
+              letterSpacing: "-0.03em",
+              fontFamily: "'DM Sans', system-ui",
+            }}
+          >
             AI Insights & Predictive Analytics
           </h2>
-          <p style={{
-            fontSize: 14, color: "#64748b", margin: "6px 0 0",
-            fontFamily: "'DM Sans', system-ui",
-          }}>
+          <p
+            style={{
+              fontSize: 14,
+              color: "#64748b",
+              margin: "6px 0 0",
+              fontFamily: "'DM Sans', system-ui",
+            }}
+          >
             Machine learning models trained on 18 months of volunteer + NGO data
           </p>
         </div>
 
         <motion.button
-          whileHover={{ scale: 1.04, boxShadow: "0 8px 24px rgba(34,197,94,0.25)" }}
+          whileHover={{
+            scale: 1.04,
+            boxShadow: "0 8px 24px rgba(34,197,94,0.25)",
+          }}
           whileTap={{ scale: 0.97 }}
           style={{
             background: "linear-gradient(135deg, #22c55e, #16a34a)",
-            color: "#fff", border: "none", borderRadius: 30,
-            padding: "11px 22px", fontSize: 13, fontWeight: 700,
-            cursor: "pointer", fontFamily: "'DM Sans', system-ui",
+            color: "#fff",
+            border: "none",
+            borderRadius: 30,
+            padding: "11px 22px",
+            fontSize: 13,
+            fontWeight: 700,
+            cursor: "pointer",
+            fontFamily: "'DM Sans', system-ui",
             boxShadow: "0 4px 16px rgba(34,197,94,0.3)",
-            display: "flex", alignItems: "center", gap: 6,
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
             marginBottom: 4,
           }}
         >
@@ -580,12 +1034,14 @@ function StaticInsightsDashboard() {
       </motion.div>
 
       {/* AI Insight Cards */}
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(3, 1fr)",
-        gap: 16,
-        marginBottom: 20,
-      }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: 16,
+          marginBottom: 20,
+        }}
+      >
         {OLD_INSIGHT_CARDS.map((card, i) => (
           <InsightCard key={i} card={card} index={i} />
         ))}
@@ -597,12 +1053,14 @@ function StaticInsightsDashboard() {
       </div>
 
       {/* Bottom: Prediction Panel + Smart Feed (65/35 split) */}
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 380px",
-        gap: 16,
-        alignItems: "start",
-      }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 380px",
+          gap: 16,
+          alignItems: "start",
+        }}
+      >
         <PredictionPanel />
         <SmartFeed />
       </div>
@@ -627,7 +1085,14 @@ export default function AIInsightsSection() {
       const data = await analyzeNgoWebsiteWithGroq(url.trim());
       setResult(data);
       setStatus("result");
-      setTimeout(() => resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 200);
+      setTimeout(
+        () =>
+          resultRef.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          }),
+        200,
+      );
     } catch (err) {
       setErrorMsg(err.message || "An unexpected error occurred.");
       setStatus("error");
@@ -656,7 +1121,6 @@ export default function AIInsightsSection() {
       }}
     >
       <div style={{ maxWidth: 1180, margin: "0 auto" }}>
-
         {/* ── Header ── */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -677,7 +1141,15 @@ export default function AIInsightsSection() {
             }}
           >
             <span style={{ fontSize: 12 }}>⚡</span>
-            <span style={{ fontSize: 12, fontWeight: 700, color: T.accent, letterSpacing: "0.06em", textTransform: "uppercase" }}>
+            <span
+              style={{
+                fontSize: 12,
+                fontWeight: 700,
+                color: T.accent,
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+              }}
+            >
               Powered by Groq AI
             </span>
           </div>
@@ -706,7 +1178,8 @@ export default function AIInsightsSection() {
               lineHeight: 1.7,
             }}
           >
-            Paste any NGO website URL and UnityNet AI will convert scattered public information into structured impact intelligence.
+            Paste any NGO website URL and DigitalSevaks AI will convert
+            scattered public information into structured impact intelligence.
           </p>
         </motion.div>
 
@@ -733,7 +1206,8 @@ export default function AIInsightsSection() {
               lineHeight: 1.6,
             }}
           >
-            Enter the website URL of the NGO that you want to help, donate to, or work with.
+            Enter the website URL of the NGO that you want to help, donate to,
+            or work with.
           </p>
 
           {/* Input row */}
@@ -768,15 +1242,22 @@ export default function AIInsightsSection() {
                 padding: "13px 24px",
                 borderRadius: 12,
                 border: "none",
-                background: status === "loading" || !url.trim()
-                  ? "rgba(99,102,241,0.35)"
-                  : `linear-gradient(135deg, ${T.accent}, #8b5cf6)`,
+                background:
+                  status === "loading" || !url.trim()
+                    ? "rgba(99,102,241,0.35)"
+                    : `linear-gradient(135deg, ${T.accent}, #8b5cf6)`,
                 color: "#fff",
                 fontSize: 14,
                 fontWeight: 700,
-                cursor: status === "loading" || !url.trim() ? "not-allowed" : "pointer",
+                cursor:
+                  status === "loading" || !url.trim()
+                    ? "not-allowed"
+                    : "pointer",
                 whiteSpace: "nowrap",
-                boxShadow: status === "loading" || !url.trim() ? "none" : `0 4px 20px ${T.accentGlow}`,
+                boxShadow:
+                  status === "loading" || !url.trim()
+                    ? "none"
+                    : `0 4px 20px ${T.accentGlow}`,
                 transition: "all 0.2s",
               }}
             >
@@ -785,12 +1266,27 @@ export default function AIInsightsSection() {
           </div>
 
           {/* Helper text */}
-          <p style={{ margin: "0 0 14px", fontSize: 12, color: T.textDim, textAlign: "center" }}>
-            Use this to understand NGO mission, focus areas, volunteer needs, and donation impact before taking action.
+          <p
+            style={{
+              margin: "0 0 14px",
+              fontSize: 12,
+              color: T.textDim,
+              textAlign: "center",
+            }}
+          >
+            Use this to understand NGO mission, focus areas, volunteer needs,
+            and donation impact before taking action.
           </p>
 
           {/* Demo URL chips */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 8,
+              justifyContent: "center",
+            }}
+          >
             {DEMO_URLS.map((durl, i) => (
               <motion.button
                 key={i}
@@ -826,7 +1322,6 @@ export default function AIInsightsSection() {
 
         {/* ── States ── */}
         <AnimatePresence mode="wait">
-
           {/* Default dashboard - keeps old AI Insights visible instead of blank */}
           {status === "idle" && (
             <motion.div
@@ -835,7 +1330,8 @@ export default function AIInsightsSection() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               style={{
-                background: "linear-gradient(160deg, #f0fdf4 0%, #ecfdf5 35%, #eff6ff 100%)",
+                background:
+                  "linear-gradient(160deg, #f0fdf4 0%, #ecfdf5 35%, #eff6ff 100%)",
                 borderRadius: 28,
                 padding: "28px",
                 border: "1px solid rgba(255,255,255,0.72)",
@@ -868,7 +1364,12 @@ export default function AIInsightsSection() {
 
           {/* Error */}
           {status === "error" && (
-            <motion.div key="error" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            <motion.div
+              key="error"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
               <ErrorCard message={errorMsg} onRetry={() => setStatus("idle")} />
             </motion.div>
           )}
@@ -884,10 +1385,37 @@ export default function AIInsightsSection() {
               style={{ display: "flex", flexDirection: "column", gap: 32 }}
             >
               {/* Result header */}
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  gap: 12,
+                }}
+              >
                 <div>
-                  <p style={{ margin: 0, fontSize: 12, color: T.textDim, textTransform: "uppercase", letterSpacing: "0.07em" }}>Analysis complete</p>
-                  <p style={{ margin: 0, fontSize: 16, fontWeight: 700, color: T.text }}>{result.ngoSummary.name}</p>
+                  <p
+                    style={{
+                      margin: 0,
+                      fontSize: 12,
+                      color: T.textDim,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.07em",
+                    }}
+                  >
+                    Analysis complete
+                  </p>
+                  <p
+                    style={{
+                      margin: 0,
+                      fontSize: 16,
+                      fontWeight: 700,
+                      color: T.text,
+                    }}
+                  >
+                    {result.ngoSummary.name}
+                  </p>
                 </div>
                 <motion.button
                   onClick={handleReset}
@@ -915,7 +1443,9 @@ export default function AIInsightsSection() {
               <ProblemAreasSection data={result.problemAreasDetected} />
               <VolunteerNeedsSection data={result.volunteerNeeds} />
               <ImpactInsightsSection data={result.impactInsights} />
-              <UnityNetSuggestionsSection data={result.unityNetSuggestions} />
+              <DigitalSevaksSuggestionsSection
+                data={result.DigitalSevaksSuggestions}
+              />
               <AiScoreCardsSection data={result.aiScoreCards} />
 
               {/* Bottom reset button */}
